@@ -3,13 +3,23 @@
 This is a web application for lazy users that want to have a custom made memorize training tool.
 Here you can insert all your sentences and French sentences and try to memorize them by using the train tab.
 
+Translate French to your language 
+
 ![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Check%201.png)
+
+It will correct you if you enter wrong sentence
 
 ![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Check%202.png)
 
+You can also do the reverse way
+
 ![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Check%203.png)
 
+And upload own sentencens in other languages
+
 ![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Upload.png)
+
+Here you can modify your database with the sentences
 
 ![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Database.png)
 
