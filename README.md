@@ -26,10 +26,6 @@ Here you can modify your database with the sentences
 
 # How to install - Ubuntu user
 
-First of all! There is a file named `learn-french-1.0-SNAPSHOT.jar` in `target` folder. It's configured for LAN server address
-`127.0.0.1` and will host on your computer IP address e.g `192.168.1.35:8080`. Also the server need to have a user named `myUser` 
-with the password `myPassword`. If you want custom made, please follow the steps below.
-
 1. Install Java 11, Maven, NodeJS
 
 Java 11
