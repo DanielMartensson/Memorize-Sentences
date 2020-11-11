@@ -3,10 +3,22 @@
 This is a web application for lazy users that want to have a custom made memorize training tool.
 Here you can insert all your sentences and French sentences and try to memorize them by using the train tab.
 
+![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Check%201.png)
 
+![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Check%202.png)
+
+![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Check%203.png)
+
+![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Upload.png)
+
+![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Database.png)
 
 
 # How to install - Ubuntu user
+
+First of all! There is a file named `learn-french-1.0-SNAPSHOT.jar` in `target` folder. It's configured for LAN server address
+`127.0.0.1` and will host on your computer IP address e.g `192.168.1.35:8080`. Also the server need to have a user named `myUser` 
+with the password `myPassword`. If you want custom made, please follow the steps below.
 
 1. Install Java 11, Maven, NodeJS
 
@@ -105,3 +117,5 @@ Now a package named `learn-french-1.0-SNAPSHOT.jar` was created. Run it by this 
 ```
 sudo java -jar learn-french-1.0-SNAPSHOT.jar
 ```
+
+Now you can access this web application at e.g `192.168.1.34:8080`
