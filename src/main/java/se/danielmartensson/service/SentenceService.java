@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import se.danielmartensson.entity.Language;
 import se.danielmartensson.entity.Sentence;
-import se.danielmartensson.repository.LanguageRepository;
 import se.danielmartensson.repository.SentenceRepository;
 
 @Service

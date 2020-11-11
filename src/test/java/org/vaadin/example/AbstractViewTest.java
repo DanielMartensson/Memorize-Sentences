@@ -50,7 +50,8 @@ public abstract class AbstractViewTest extends ParallelTest {
         WebDriverManager.chromedriver().setup();
     }
 
-    @Before
+    @Override
+	@Before
     public void setup() throws Exception {
         if (isUsingHub()) {
             super.setup();

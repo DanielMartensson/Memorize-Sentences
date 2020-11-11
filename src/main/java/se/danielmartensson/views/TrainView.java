@@ -1,13 +1,9 @@
 package se.danielmartensson.views;
 
-import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
@@ -21,11 +17,8 @@ import se.danielmartensson.service.LanguageService;
 import se.danielmartensson.service.SentenceService;
 import se.danielmartensson.tools.Top;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Route("")
