@@ -89,6 +89,7 @@ public class TrainView extends AppLayout {
 			    }else {
 			    	frenchSentence.setValue(sentenceInOtherLanguage);
 			    }
+			    yourTranslation.setValue(""); // Auto clear
 			}
 		});
 		
