@@ -134,4 +134,4 @@ Now a package named `learn-french-1.0-SNAPSHOT.jar` was created. Run it by this 
 sudo java -jar learn-french-1.0-SNAPSHOT.jar
 ```
 
-Now you can access this web application at e.g `192.168.1.34:8080`
+Now you can access this web application at your web browser with the URL link e.g `http://192.168.1.34:8080`
