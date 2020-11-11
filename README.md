@@ -17,7 +17,7 @@ You can also do the reverse way
 
 ![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Check%203.png)
 
-And upload own sentencens in other languages. Please create a csv file with the format frenchSentence,yourSentence,yourLanguage e.g
+And upload own sentences in other languages. Please create a csv file with the format frenchSentence,yourSentence,yourLanguage e.g
 
 ```
 Oui,Yes,English
@@ -26,6 +26,8 @@ Bonjour,Goddag,Svenska
 Au revoir,Good bye,English
 Au revoir,Adjö,Svenska
 ```
+
+There is CSV files that already made by me, in Swedish and in French. Have a look at the `Languages CSV` folder.
 
 ![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Upload.png)
 
