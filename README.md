@@ -1,6 +1,9 @@
 # Learn French
 
-This is a web application for lazy user that want to have a custom made memorize training tool.
+This is a web application for lazy users that want to have a custom made memorize training tool.
+Here you can insert all your sentences and French sentences and try to memorize them by using the train tab.
+
+
 
 
 # How to install - Ubuntu user
