@@ -60,7 +60,7 @@ public class UploadView extends AppLayout {
 		upload.setMaxFiles(1);
 		upload.setDropLabel(new Label("Upload .csv in format frenchSentence,yourSentence,language"));
 		upload.setAcceptedFileTypes("text/csv");
-		upload.setMaxFileSize(3000);
+		upload.setMaxFileSize(30000); // 30 MB
 		Div output = new Div();
 			
 		// Confirm dialog - ask if we going to inser into the database

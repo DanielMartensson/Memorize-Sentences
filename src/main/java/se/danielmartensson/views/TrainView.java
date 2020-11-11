@@ -59,17 +59,17 @@ public class TrainView extends AppLayout {
 		frenchSentence.setWidthFull();
 		frenchSentence.setEnabled(false);
 		TextField yourTranslation = new TextField();
-		yourTranslation.setLabel("Your language");
+		yourTranslation.setLabel("Your translation");
 		yourTranslation.setWidthFull();
 		
 		// Checkbox if we want to do a reverse translation
 		Checkbox reverseTranslation = new Checkbox("Reverse", false);
 		reverseTranslation.addValueChangeListener(e -> {
 			if(e.getValue()) {
-				frenchSentence.setLabel("Your language");
+				frenchSentence.setLabel("Your translation");
 				yourTranslation.setLabel("Français");
 			}else {
-				yourTranslation.setLabel("Your language");
+				yourTranslation.setLabel("Your translation");
 				frenchSentence.setLabel("Français");
 			}
 			frenchSentence.setValue("");
@@ -104,10 +104,10 @@ public class TrainView extends AppLayout {
 				String theAnswer = sentenceInFrench.toLowerCase().replace(" ", "");
 			    correct = theAnswer.contains(yourAnser);
 			}
-			if(correct) {
-				checkSentence.getStyle().set("background-color","green");
+			if(correct && yourAnser.length() > 0) {
+				checkSentence.getStyle().set("background-color","#c4f8b5"); // Green
 			}else {
-				checkSentence.getStyle().set("background-color","red");
+				checkSentence.getStyle().set("background-color","#f8bcb5"); // Red
 			}
 		});
 
