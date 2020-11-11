@@ -92,6 +92,16 @@ public class TrainView extends AppLayout {
 			}
 		});
 		
+		// See the answer
+		Button seeTheAnswer = new Button("See the answer");
+		seeTheAnswer.addClickListener(e -> {
+			if(!reverseTranslation.getValue()) {
+				yourTranslation.setValue(sentenceInOtherLanguage);
+			}else {
+				yourTranslation.setValue(sentenceInFrench);
+			}
+		});
+		
 		// Check your translation
 		Button checkSentence = new Button("Check");
 		checkSentence.addClickListener(e -> {
@@ -112,7 +122,7 @@ public class TrainView extends AppLayout {
 		});
 
 		// Layout
-		VerticalLayout layout = new VerticalLayout(seletedLanguage, reverseTranslation, frenchSentence, yourTranslation, new HorizontalLayout(nextSentence, checkSentence));
+		VerticalLayout layout = new VerticalLayout(seletedLanguage, reverseTranslation, frenchSentence, yourTranslation, new HorizontalLayout(nextSentence, seeTheAnswer, checkSentence));
 		setContent(layout);
 		
 	}
