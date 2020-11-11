@@ -122,7 +122,7 @@ public class TrainView extends AppLayout {
 		});
 
 		// Layout
-		VerticalLayout layout = new VerticalLayout(seletedLanguage, reverseTranslation, frenchSentence, yourTranslation, new HorizontalLayout(nextSentence, seeTheAnswer, checkSentence));
+		VerticalLayout layout = new VerticalLayout(seletedLanguage, reverseTranslation, frenchSentence, yourTranslation, new HorizontalLayout(nextSentence, seeTheAnswer), checkSentence);
 		setContent(layout);
 		
 	}
