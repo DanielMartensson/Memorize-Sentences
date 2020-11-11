@@ -17,6 +17,7 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -55,7 +56,6 @@ public class UploadView extends AppLayout {
 	public UploadView(SentenceService sentenceService, LanguageService languageService) {
 		Top top = new Top();
 		top.setTopAppLayout(this);
-		
 		createUploader(sentenceService, languageService);
 	}
 
@@ -63,7 +63,7 @@ public class UploadView extends AppLayout {
 		// Grid
 		List<SentenceUpload> sentenceList = new ArrayList<>();
 		Grid<SentenceUpload> grid = new Grid<>(SentenceUpload.class);
-		grid.setColumns("wordInFrench", "wordInOtherLanguage", "language");
+		grid.setColumns("sentenceInFrench", "sentenceInOtherLanguage", "language");
 		
 		MemoryBuffer buffer = new MemoryBuffer();
 		Upload upload = new Upload(buffer);
@@ -80,12 +80,11 @@ public class UploadView extends AppLayout {
 		insert.addClickListener(e -> dialog.open());
 		Button confirmButton = new Button("Yes", event -> {
 			for(SentenceUpload sentenceUpload : sentenceList) {
-				String wordInFrench = sentenceUpload.getWordInFrench();
-				String wordInOtherLanguage = sentenceUpload.getWordInOtherLanguage();
+				String sentenceInFrench = sentenceUpload.getSentenceInFrench();
+				String sentenceInOtherLanguage = sentenceUpload.getSentenceInOtherLanguage();
 				String language = sentenceUpload.getLanguage();
-				sentenceService.checkAndSave(wordInFrench, wordInOtherLanguage, language);
+				sentenceService.checkAndSave(sentenceInFrench, sentenceInOtherLanguage, language);
 			}
-			
 			dialog.close();
 		});
 		Button cancelButton = new Button("No", event -> {
@@ -116,6 +115,7 @@ public class UploadView extends AppLayout {
 		
 		
 		HorizontalLayout firstRow = new HorizontalLayout(upload, insert);
+		firstRow.setAlignItems(Alignment.CENTER);
 		setContent(new VerticalLayout(firstRow, grid));
 		
 	}
@@ -129,10 +129,10 @@ public class UploadView extends AppLayout {
 					correctColumnSize = true;
 					for(String csvRow : csvRows) {
 						String[] columns = csvRow.split(",");
-						String wordInFrench = columns[0];
-						String wordInOtherLanguage = columns[1];
+						String sentenceInFrench = columns[0];
+						String sentenceInOtherLanguage = columns[1];
 						String language = columns[2];
-						sentenceList.add(new SentenceUpload(wordInFrench, wordInOtherLanguage, language));
+						sentenceList.add(new SentenceUpload(sentenceInFrench, sentenceInOtherLanguage, language));
 					}
 				}
 			} catch (IOException e) {

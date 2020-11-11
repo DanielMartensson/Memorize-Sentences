@@ -4,14 +4,26 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 
+import se.danielmartensson.entity.Language;
+import se.danielmartensson.entity.Sentence;
+import se.danielmartensson.service.LanguageService;
+import se.danielmartensson.service.SentenceService;
 import se.danielmartensson.tools.Top;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,9 +41,86 @@ public class TrainView extends AppLayout {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private List<Sentence> sentences = null;
+	private int amoutOfSentences = 0;
+	private String sentenceInFrench = "";
+	private String sentenceInOtherLanguage = "";
 
-	public TrainView() {
+	public TrainView(SentenceService sentenceService, LanguageService languageService) {
 		Top top = new Top();
 		top.setTopAppLayout(this);
+		
+		// Create the select language drop down button
+		Select<Language> seletedLanguage = new Select<>();
+		seletedLanguage.setWidthFull();
+		seletedLanguage.setLabel("Select your language");
+		seletedLanguage.setItems(languageService.findAll()); // Thanks to modified toString in Language class
+		seletedLanguage.addValueChangeListener(e -> {
+			sentences = sentenceService.findByLanguage(e.getValue());
+			amoutOfSentences = sentences.size();
+		});
+	
+		// Text fields
+		TextField frenchSentence = new TextField();
+		frenchSentence.setLabel("Français");
+		frenchSentence.setWidthFull();
+		frenchSentence.setEnabled(false);
+		TextField yourTranslation = new TextField();
+		yourTranslation.setLabel("Your language");
+		yourTranslation.setWidthFull();
+		
+		// Checkbox if we want to do a reverse translation
+		Checkbox reverseTranslation = new Checkbox("Reverse", false);
+		reverseTranslation.addValueChangeListener(e -> {
+			if(e.getValue()) {
+				frenchSentence.setLabel("Your language");
+				yourTranslation.setLabel("Français");
+			}else {
+				yourTranslation.setLabel("Your language");
+				frenchSentence.setLabel("Français");
+			}
+			frenchSentence.setValue("");
+			yourTranslation.setValue("");
+			
+		});
+
+		// Create next sentence button
+		Button nextSentence = new Button("Next sentence");
+		nextSentence.addClickListener(e -> {
+			if(sentences != null) {
+				int sentenceNumber = new Random().nextInt(amoutOfSentences);
+				sentenceInFrench = sentences.get(sentenceNumber).getSentenceInFrench();
+			    sentenceInOtherLanguage = sentences.get(sentenceNumber).getSentenceInOtherLanguage();
+			    if(!reverseTranslation.getValue()) {
+			    	frenchSentence.setValue(sentenceInFrench);
+			    }else {
+			    	frenchSentence.setValue(sentenceInOtherLanguage);
+			    }
+			}
+		});
+		
+		// Check your translation
+		Button checkSentence = new Button("Check");
+		checkSentence.addClickListener(e -> {
+			String yourAnser = yourTranslation.getValue().toLowerCase().replace(" ", "");
+			boolean correct = false;
+			if(!reverseTranslation.getValue()) {
+				String theAnswer = sentenceInOtherLanguage.toLowerCase().replace(" ", "");
+				correct = theAnswer.contains(yourAnser); 
+			}else {
+				String theAnswer = sentenceInFrench.toLowerCase().replace(" ", "");
+			    correct = theAnswer.contains(yourAnser);
+			}
+			if(correct) {
+				checkSentence.getStyle().set("background-color","green");
+			}else {
+				checkSentence.getStyle().set("background-color","red");
+			}
+		});
+
+		// Layout
+		VerticalLayout layout = new VerticalLayout(seletedLanguage, reverseTranslation, frenchSentence, yourTranslation, new HorizontalLayout(nextSentence, checkSentence));
+		setContent(layout);
+		
 	}
 }

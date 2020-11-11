@@ -26,5 +26,9 @@ public class Language {
 	
 	@NotNull
 	private String language;
-	
+
+	@Override
+	public String toString() {
+		return language; // We only want to see this field in the grid
+	}
 }

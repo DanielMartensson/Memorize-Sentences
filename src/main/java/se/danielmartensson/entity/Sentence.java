@@ -32,10 +32,10 @@ public class Sentence {
 	private Long id;
 	
 	@NotNull
-	private String wordInFrench;
+	private String sentenceInFrench;
 	
 	@NotNull
-	private String wordInOtherLanguage;
+	private String sentenceInOtherLanguage;
 	
 	@ManyToOne
 	@NotNull
