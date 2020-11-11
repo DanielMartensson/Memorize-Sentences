@@ -11,7 +11,7 @@ import se.danielmartensson.entity.Sentence;
 
 @Repository
 public interface SentenceRepository extends JpaRepository<Sentence, Long> {
-	boolean existsBySentenceInFrenchOrSentenceInOtherLanguage(String sentenceInFrench, String sentenceInOtherLanguage);
+	boolean existsBySentenceInFrenchAndSentenceInOtherLanguage(String sentenceInFrench, String sentenceInOtherLanguage);
 	void deleteByLanguage(Language language);
 	List<Sentence> findByLanguage(Language language);
 }

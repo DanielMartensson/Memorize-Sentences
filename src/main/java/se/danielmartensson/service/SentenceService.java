@@ -47,7 +47,7 @@ public class SentenceService {
 		if(languageObject == null) {
 			languageObject = languageService.save(new Language(0L, language));
 		}
-		boolean sentenceExist = sentenceRepository.existsBySentenceInFrenchOrSentenceInOtherLanguage(sentenceInFrench, sentenceInOtherLanguage);
+		boolean sentenceExist = sentenceRepository.existsBySentenceInFrenchAndSentenceInOtherLanguage(sentenceInFrench, sentenceInOtherLanguage);
 		if(!sentenceExist) {
 			save(new Sentence(0L, sentenceInFrench, sentenceInOtherLanguage, languageObject));
 		}
