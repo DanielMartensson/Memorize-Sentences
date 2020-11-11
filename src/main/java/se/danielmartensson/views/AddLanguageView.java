@@ -16,6 +16,7 @@ import se.danielmartensson.service.LanguageService;
 import se.danielmartensson.tools.Top;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.crudui.crud.CrudOperation;
 import org.vaadin.crudui.crud.impl.GridCrud;
 
 
@@ -42,11 +43,12 @@ public class AddLanguageView extends AppLayout {
         
         // form configuration
         crud.getCrudFormFactory().setUseBeanValidation(true);
-        crud.getCrudFormFactory().setVisibleProperties("language");
+        crud.getCrudFormFactory().setVisibleProperties(CrudOperation.UPDATE, "language");
+        crud.getCrudFormFactory().setVisibleProperties(CrudOperation.READ, "language");
 		
         // layout configuration
         setContent(crud);
-        crud.setFindAllOperationVisible(false);
+        
         
         // logic configuration
         crud.setOperations(

@@ -27,4 +27,12 @@ public class LanguageService {
 	public void delete(Language language) {
 		languageRepository.delete(language);
 	}
+	
+	public boolean existsById(Long id) {
+		return languageRepository.existsById(id);
+	}
+	
+	public Language findByLanguage(String language) {
+		return languageRepository.findByLanguage(language);
+	}
 }

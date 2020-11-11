@@ -8,5 +8,5 @@ import se.danielmartensson.entity.Sentence;
 
 @Repository
 public interface SentenceRepository extends JpaRepository<Sentence, Long> {
-
+	boolean existsByWordInFrenchOrWordInOtherLanguage(String wordInFrench, String wordInOtherLanguage);
 }

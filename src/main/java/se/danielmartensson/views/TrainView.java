@@ -10,10 +10,13 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
+
+import se.danielmartensson.tools.Top;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-@Route
+@Route("")
 @PWA(name = "Vaadin Application",
         shortName = "Vaadin App",
         description = "This is an example Vaadin application.",
@@ -27,7 +30,8 @@ public class TrainView extends AppLayout {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	
- 
-
+	public TrainView() {
+		Top top = new Top();
+		top.setTopAppLayout(this);
+	}
 }

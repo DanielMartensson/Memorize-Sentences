@@ -53,7 +53,6 @@ public class AddSentenceView extends AppLayout {
         
         // layout configuration
         setContent(crud);
-        crud.setFindAllOperationVisible(false);
         
         // logic configuration
         crud.setOperations(
@@ -64,6 +63,5 @@ public class AddSentenceView extends AppLayout {
         );
         
 	}
- 
 
 }

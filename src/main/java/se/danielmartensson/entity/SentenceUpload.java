@@ -1,30 +1,23 @@
 package se.danielmartensson.entity;
 
+import java.util.Locale;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-
-import org.springframework.lang.Nullable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Entity
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class Language {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@NotNull
+public class SentenceUpload {
+	// These fields are for the grid inside UploadView
+	private String wordInFrench;
+	private String wordInOtherLanguage;
 	private String language;
 	
 }
