@@ -114,8 +114,8 @@ public class TrainView extends AppLayout {
 			    sentenceInOtherLanguage = sentences.get(sentenceNumber).getSentenceInOtherLanguage();
 			    if(!reverseTranslation.getValue()) {
 			    	frenchSentence.setValue(sentenceInFrench);
-			    	player.setSource("languages/French Audio/" + sentenceInFrench + ".mp3");
-			    	System.out.println("languages/French Audio/" + sentenceInFrench + ".mp3");
+			    	player.setSource("audio/" + sentenceInFrench + ".mp3");
+			    	System.out.println("audio/" + sentenceInFrench + ".mp3");
 			    }else {
 			    	frenchSentence.setValue(sentenceInOtherLanguage);
 			    }
