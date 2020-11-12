@@ -16,7 +16,7 @@ public class AudioPlayer extends Component {
 
     }
 
-    public  void setSource(String path){
+    public void setSource(String path){
         getElement().setProperty("src",path);
     }
 }
