@@ -4,6 +4,7 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
@@ -15,6 +16,7 @@ import se.danielmartensson.entity.Language;
 import se.danielmartensson.entity.Sentence;
 import se.danielmartensson.service.LanguageService;
 import se.danielmartensson.service.SentenceService;
+import se.danielmartensson.tools.AudioPlayer;
 import se.danielmartensson.tools.Top;
 
 import java.util.List;
@@ -62,20 +64,27 @@ public class TrainView extends AppLayout {
 		yourTranslation.setLabel("Your translation");
 		yourTranslation.setWidthFull();
 		
+		// Audio player
+		AudioPlayer player = new AudioPlayer();
+		
 		// Checkbox if we want to do a reverse translation
 		Checkbox reverseTranslation = new Checkbox("Reverse", false);
 		reverseTranslation.addValueChangeListener(e -> {
 			if(e.getValue()) {
 				frenchSentence.setLabel("Your translation");
 				yourTranslation.setLabel("Français");
+				player.setVisible(false);
 			}else {
 				yourTranslation.setLabel("Your translation");
 				frenchSentence.setLabel("Français");
+				player.setVisible(true);
 			}
 			frenchSentence.setValue("");
 			yourTranslation.setValue("");
 			
 		});
+		
+
 		
 		// Check your translation
 		Button checkSentence = new Button("Check");
@@ -105,6 +114,8 @@ public class TrainView extends AppLayout {
 			    sentenceInOtherLanguage = sentences.get(sentenceNumber).getSentenceInOtherLanguage();
 			    if(!reverseTranslation.getValue()) {
 			    	frenchSentence.setValue(sentenceInFrench);
+			    	player.setSource("languages/French Audio/" + sentenceInFrench + ".mp3");
+			    	System.out.println("languages/French Audio/" + sentenceInFrench + ".mp3");
 			    }else {
 			    	frenchSentence.setValue(sentenceInOtherLanguage);
 			    }
@@ -126,7 +137,9 @@ public class TrainView extends AppLayout {
 
 
 		// Layout
-		VerticalLayout layout = new VerticalLayout(seletedLanguage, reverseTranslation, frenchSentence, yourTranslation, new HorizontalLayout(nextSentence, seeTheAnswer), checkSentence);
+		HorizontalLayout checkBox_player = new HorizontalLayout(reverseTranslation, player);
+		checkBox_player.setAlignItems(Alignment.CENTER);
+		VerticalLayout layout = new VerticalLayout(seletedLanguage, checkBox_player, frenchSentence, yourTranslation, new HorizontalLayout(nextSentence, seeTheAnswer), checkSentence);
 		setContent(layout);
 		
 	}
