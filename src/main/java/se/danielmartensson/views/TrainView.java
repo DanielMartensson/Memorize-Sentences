@@ -76,32 +76,6 @@ public class TrainView extends AppLayout {
 			yourTranslation.setValue("");
 			
 		});
-
-		// Create next sentence button
-		Button nextSentence = new Button("Next sentence");
-		nextSentence.addClickListener(e -> {
-			if(sentences != null) {
-				int sentenceNumber = new Random().nextInt(amoutOfSentences);
-				sentenceInFrench = sentences.get(sentenceNumber).getSentenceInFrench();
-			    sentenceInOtherLanguage = sentences.get(sentenceNumber).getSentenceInOtherLanguage();
-			    if(!reverseTranslation.getValue()) {
-			    	frenchSentence.setValue(sentenceInFrench);
-			    }else {
-			    	frenchSentence.setValue(sentenceInOtherLanguage);
-			    }
-			    yourTranslation.setValue(""); // Auto clear
-			}
-		});
-		
-		// See the answer
-		Button seeTheAnswer = new Button("See the answer");
-		seeTheAnswer.addClickListener(e -> {
-			if(!reverseTranslation.getValue()) {
-				yourTranslation.setValue(sentenceInOtherLanguage);
-			}else {
-				yourTranslation.setValue(sentenceInFrench);
-			}
-		});
 		
 		// Check your translation
 		Button checkSentence = new Button("Check");
@@ -121,6 +95,35 @@ public class TrainView extends AppLayout {
 				checkSentence.getStyle().set("background-color","#f8bcb5"); // Red
 			}
 		});
+
+		// Create next sentence button
+		Button nextSentence = new Button("Next sentence");
+		nextSentence.addClickListener(e -> {
+			if(sentences != null) {
+				int sentenceNumber = new Random().nextInt(amoutOfSentences);
+				sentenceInFrench = sentences.get(sentenceNumber).getSentenceInFrench();
+			    sentenceInOtherLanguage = sentences.get(sentenceNumber).getSentenceInOtherLanguage();
+			    if(!reverseTranslation.getValue()) {
+			    	frenchSentence.setValue(sentenceInFrench);
+			    }else {
+			    	frenchSentence.setValue(sentenceInOtherLanguage);
+			    }
+			    yourTranslation.setValue(""); // Auto clear
+			    checkSentence.getStyle().set("background-color", null); // Normal
+			}
+		});
+		
+		// See the answer
+		Button seeTheAnswer = new Button("See the answer");
+		seeTheAnswer.addClickListener(e -> {
+			if(!reverseTranslation.getValue()) {
+				yourTranslation.setValue(sentenceInOtherLanguage);
+			}else {
+				yourTranslation.setValue(sentenceInFrench);
+			}
+		});
+		
+
 
 		// Layout
 		VerticalLayout layout = new VerticalLayout(seletedLanguage, reverseTranslation, frenchSentence, yourTranslation, new HorizontalLayout(nextSentence, seeTheAnswer), checkSentence);
