@@ -22,10 +22,10 @@ public class Sentence {
 	private Long id;
 	
 	@NotNull
-	private String sentenceInFrench;
+	private String sentenceInForeignLanguage;
 	
 	@NotNull
-	private String sentenceInOtherLanguage;
+	private String sentenceInYourLanguage;
 	
 	@ManyToOne
 	@NotNull

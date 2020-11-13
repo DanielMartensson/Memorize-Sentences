@@ -33,14 +33,13 @@ public class AddSentenceView extends AppLayout {
 		GridCrud<Sentence> crud = new GridCrud<>(Sentence.class);
 		        
     	// grid configuration
-		crud.getGrid().setColumns("sentenceInFrench", "sentenceInOtherLanguage", "language");
+		crud.getGrid().setColumns("sentenceInForeignLanguage", "sentenceInYourLanguage", "language");
         crud.getGrid().setColumnReorderingAllowed(true);
         
         // form configuration
         crud.getCrudFormFactory().setUseBeanValidation(true);
-        crud.getCrudFormFactory().setVisibleProperties("sentenceInFrench", "sentenceInOtherLanguage", "language");
-        crud.getCrudFormFactory().setFieldProvider("language",
-                new ComboBoxProvider<>("Language", languageService.findAll(), new TextRenderer<>(Language::getLanguage), Language::getLanguage));
+        crud.getCrudFormFactory().setVisibleProperties("sentenceInForeignLanguage", "sentenceInYourLanguage", "language");
+        crud.getCrudFormFactory().setFieldProvider("yourLanguage", new ComboBoxProvider<>("YourLanguage", languageService.findAll(), new TextRenderer<>(Language::getYourLanguage), Language::getYourLanguage));
         
         // layout configuration
         setContent(crud);

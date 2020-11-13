@@ -53,12 +53,12 @@ public class UploadView extends AppLayout {
 		// Grid
 		List<SentenceUpload> sentenceList = new ArrayList<>();
 		Grid<SentenceUpload> grid = new Grid<>(SentenceUpload.class);
-		grid.setColumns("sentenceInFrench", "sentenceInOtherLanguage", "language");
+		grid.setColumns("sentenceInForeignLanguage", "sentenceInYourLanguage", "yourLanguage");
 		
 		MemoryBuffer buffer = new MemoryBuffer();
 		Upload upload = new Upload(buffer);
 		upload.setMaxFiles(1);
-		upload.setDropLabel(new Label("Upload .csv in format frenchSentence,yourSentence,language"));
+		upload.setDropLabel(new Label("Upload .csv in format SentenceInForeignLanguage,SentenceInYourLanguage,YourLanguage"));
 		upload.setAcceptedFileTypes("text/csv");
 		upload.setMaxFileSize(30000); // 30 MB
 		Div output = new Div();
@@ -70,10 +70,10 @@ public class UploadView extends AppLayout {
 		insert.addClickListener(e -> dialog.open());
 		Button confirmButton = new Button("Yes", event -> {
 			for(SentenceUpload sentenceUpload : sentenceList) {
-				String sentenceInFrench = sentenceUpload.getSentenceInFrench();
-				String sentenceInOtherLanguage = sentenceUpload.getSentenceInOtherLanguage();
-				String language = sentenceUpload.getLanguage();
-				sentenceService.checkAndSave(sentenceInFrench, sentenceInOtherLanguage, language);
+				String sentenceInForeignLanguage = sentenceUpload.getSentenceInForeignLanguage();
+				String sentenceInYourLanguage = sentenceUpload.getSentenceInYourLanguage();
+				String yourLanduage = sentenceUpload.getYourLanguage();
+				sentenceService.checkAndSave(sentenceInForeignLanguage, sentenceInYourLanguage, yourLanduage);
 			}
 			dialog.close();
 		});
@@ -103,7 +103,6 @@ public class UploadView extends AppLayout {
 			output.removeAll();
 		});
 		
-		
 		HorizontalLayout firstRow = new HorizontalLayout(upload, insert);
 		firstRow.setAlignItems(Alignment.CENTER);
 		setContent(new VerticalLayout(firstRow, grid));
@@ -119,10 +118,10 @@ public class UploadView extends AppLayout {
 					correctColumnSize = true;
 					for(String csvRow : csvRows) {
 						String[] columns = csvRow.split(",");
-						String sentenceInFrench = columns[0];
-						String sentenceInOtherLanguage = columns[1];
-						String language = columns[2];
-						sentenceList.add(new SentenceUpload(sentenceInFrench, sentenceInOtherLanguage, language));
+						String sentenceInForeignLanguage = columns[0];
+						String sentenceInYourLanguage = columns[1];
+						String yourLanguage = columns[2];
+						sentenceList.add(new SentenceUpload(sentenceInForeignLanguage, sentenceInYourLanguage, yourLanguage));
 					}
 				}
 			} catch (IOException e) {

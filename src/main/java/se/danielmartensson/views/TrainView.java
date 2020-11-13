@@ -40,8 +40,8 @@ public class TrainView extends AppLayout {
 	private static final long serialVersionUID = 1L;
 	private List<Sentence> sentences = null;
 	private int amoutOfSentences = 0;
-	private String sentenceInFrench = "";
-	private String sentenceInOtherLanguage = "";
+	private String foreignSentence = "";
+	private String yourSentence = "";
 
 	public TrainView(SentenceService sentenceService, LanguageService languageService) {
 		Top top = new Top();
@@ -58,13 +58,13 @@ public class TrainView extends AppLayout {
 		});
 	
 		// Text fields
-		TextField frenchSentence = new TextField();
-		frenchSentence.setLabel("Français");
-		frenchSentence.setWidthFull();
-		frenchSentence.setEnabled(false);
-		TextField yourTranslation = new TextField();
-		yourTranslation.setLabel("Your translation");
-		yourTranslation.setWidthFull();
+		TextField sentenceInForeignLanguage = new TextField();
+		sentenceInForeignLanguage.setLabel("Sentence in foreign language");
+		sentenceInForeignLanguage.setWidthFull();
+		sentenceInForeignLanguage.setEnabled(false);
+		TextField sentenceInYourLanguage = new TextField();
+		sentenceInYourLanguage.setLabel("Sentence in your language");
+		sentenceInYourLanguage.setWidthFull();
 		
 		// Audio player
 		AudioPlayer player = new AudioPlayer();
@@ -73,32 +73,32 @@ public class TrainView extends AppLayout {
 		Checkbox reverseTranslation = new Checkbox("Reverse", false);
 		reverseTranslation.addValueChangeListener(e -> {
 			if(e.getValue()) {
-				frenchSentence.setLabel("Your translation");
-				yourTranslation.setLabel("Français");
+				sentenceInForeignLanguage.setLabel("Sentence in your language");
+				sentenceInYourLanguage.setLabel("Sentence in foreign language");
 				player.setVisible(false);
 			}else {
-				yourTranslation.setLabel("Your translation");
-				frenchSentence.setLabel("Français");
+				sentenceInYourLanguage.setLabel("Sentence in your language");
+				sentenceInForeignLanguage.setLabel("Sentence in foreign language");
 				player.setVisible(true);
 			}
-			frenchSentence.setValue("");
-			yourTranslation.setValue("");
+			sentenceInForeignLanguage.setValue("");
+			sentenceInYourLanguage.setValue("");
 			
 		});
 		
-		// Check your translation
+		// Check Sentence in your language
 		Button checkSentence = new Button("Check");
 		checkSentence.addClickListener(e -> {
-			String yourAnser = yourTranslation.getValue().toLowerCase().replace(" ", "");
+			String yourAnswer = sentenceInYourLanguage.getValue().toLowerCase().replace(" ", "");
 			boolean correct = false;
 			if(!reverseTranslation.getValue()) {
-				String theAnswer = sentenceInOtherLanguage.toLowerCase().replace(" ", "");
-				correct = theAnswer.equals(yourAnser); 
+				String theAnswer = yourSentence.toLowerCase().replace(" ", "");
+				correct = theAnswer.equals(yourAnswer); 
 			}else {
-				String theAnswer = sentenceInFrench.toLowerCase().replace(" ", "");
-			    correct = theAnswer.equals(yourAnser);
+				String theAnswer = foreignSentence.toLowerCase().replace(" ", "");
+			    correct = theAnswer.equals(yourAnswer);
 			}
-			if(correct && yourAnser.length() > 0) {
+			if(correct && yourAnswer.length() > 0) {
 				checkSentence.getStyle().set("background-color","#c4f8b5"); // Green
 			}else {
 				checkSentence.getStyle().set("background-color","#f8bcb5"); // Red
@@ -110,17 +110,17 @@ public class TrainView extends AppLayout {
 		nextSentence.addClickListener(e -> {
 			if(sentences != null) {
 				int sentenceNumber = new Random().nextInt(amoutOfSentences);
-				sentenceInFrench = sentences.get(sentenceNumber).getSentenceInFrench();
-			    sentenceInOtherLanguage = sentences.get(sentenceNumber).getSentenceInOtherLanguage();
+				foreignSentence = sentences.get(sentenceNumber).getSentenceInForeignLanguage();
+			    yourSentence = sentences.get(sentenceNumber).getSentenceInYourLanguage();
 			    if(!reverseTranslation.getValue()) {
-			    	frenchSentence.setValue(sentenceInFrench);
-			    	String audioPath = "/META-INF/resources/audio/" + sentenceInFrench + ".mp3";
-			    	AbstractStreamResource resource = new StreamResource(sentenceInFrench, () -> getClass().getResourceAsStream(audioPath));
+			    	sentenceInForeignLanguage.setValue(foreignSentence);
+			    	String audioPath = "/META-INF/resources/audio/" + foreignSentence + ".mp3";
+			    	AbstractStreamResource resource = new StreamResource(foreignSentence, () -> getClass().getResourceAsStream(audioPath));
 			    	player.getElement().setAttribute("src", resource);
 			    }else {
-			    	frenchSentence.setValue(sentenceInOtherLanguage);
+			    	sentenceInForeignLanguage.setValue(yourSentence);
 			    }
-			    yourTranslation.setValue(""); // Auto clear
+			    sentenceInYourLanguage.setValue(""); // Auto clear
 			    checkSentence.getStyle().set("background-color", null); // Normal
 			}
 		});
@@ -129,16 +129,16 @@ public class TrainView extends AppLayout {
 		Button seeTheAnswer = new Button("See the answer");
 		seeTheAnswer.addClickListener(e -> {
 			if(!reverseTranslation.getValue()) {
-				yourTranslation.setValue(sentenceInOtherLanguage);
+				sentenceInYourLanguage.setValue(yourSentence);
 			}else {
-				yourTranslation.setValue(sentenceInFrench);
+				sentenceInYourLanguage.setValue(foreignSentence);
 			}
 		});
 
 		// Layout
 		HorizontalLayout checkBox_player = new HorizontalLayout(reverseTranslation, player);
 		checkBox_player.setAlignItems(Alignment.CENTER);
-		VerticalLayout layout = new VerticalLayout(seletedLanguage, checkBox_player, frenchSentence, yourTranslation, new HorizontalLayout(nextSentence, seeTheAnswer), checkSentence);
+		VerticalLayout layout = new VerticalLayout(seletedLanguage, checkBox_player, sentenceInForeignLanguage, sentenceInYourLanguage, new HorizontalLayout(nextSentence, seeTheAnswer), checkSentence);
 		setContent(layout);
 		
 	}

@@ -42,14 +42,14 @@ public class SentenceService {
 		return sentenceRepository.existsById(id);
 	}
 	
-	public void checkAndSave(String sentenceInFrench, String sentenceInOtherLanguage, String language) {
-		Language languageObject = languageService.findByLanguage(language);
+	public void checkAndSave(String sentenceInForeignLanguage, String sentenceInYourLanguage, String yourLanugage) {
+		Language languageObject = languageService.findByLanguage(yourLanugage);
 		if(languageObject == null) {
-			languageObject = languageService.save(new Language(0L, language));
+			languageObject = languageService.save(new Language(0L, yourLanugage));
 		}
-		boolean sentenceExist = sentenceRepository.existsBySentenceInFrenchAndSentenceInOtherLanguage(sentenceInFrench, sentenceInOtherLanguage);
+		boolean sentenceExist = sentenceRepository.existsBySentenceInForeignLanguageAndSentenceInYourLanguage(sentenceInForeignLanguage, sentenceInYourLanguage);
 		if(!sentenceExist) {
-			save(new Sentence(0L, sentenceInFrench, sentenceInOtherLanguage, languageObject));
+			save(new Sentence(0L, sentenceInForeignLanguage, sentenceInYourLanguage, languageObject));
 		}
 	}
 

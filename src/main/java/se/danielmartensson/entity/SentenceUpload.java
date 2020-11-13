@@ -7,8 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class SentenceUpload {
 	// These fields are for the grid inside UploadView
-	private String sentenceInFrench;
-	private String sentenceInOtherLanguage;
-	private String language;
+	private String sentenceInForeignLanguage;
+	private String sentenceInYourLanguage;
+	private String yourLanguage;
 	
 }

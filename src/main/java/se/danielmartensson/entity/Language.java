@@ -21,10 +21,10 @@ public class Language {
 	private Long id;
 	
 	@NotNull
-	private String language;
+	private String yourLanguage;
 
 	@Override
 	public String toString() {
-		return language; // We only want to see this field in the grid
+		return yourLanguage; // We only want to see this field in the grid
 	}
 }
