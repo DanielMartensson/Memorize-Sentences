@@ -10,7 +10,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.AbstractStreamResource;
 import com.vaadin.flow.server.PWA;
+import com.vaadin.flow.server.StreamResource;
 
 import se.danielmartensson.entity.Language;
 import se.danielmartensson.entity.Sentence;
@@ -84,8 +86,6 @@ public class TrainView extends AppLayout {
 			
 		});
 		
-
-		
 		// Check your translation
 		Button checkSentence = new Button("Check");
 		checkSentence.addClickListener(e -> {
@@ -93,10 +93,10 @@ public class TrainView extends AppLayout {
 			boolean correct = false;
 			if(!reverseTranslation.getValue()) {
 				String theAnswer = sentenceInOtherLanguage.toLowerCase().replace(" ", "");
-				correct = theAnswer.contains(yourAnser); 
+				correct = theAnswer.equals(yourAnser); 
 			}else {
 				String theAnswer = sentenceInFrench.toLowerCase().replace(" ", "");
-			    correct = theAnswer.contains(yourAnser);
+			    correct = theAnswer.equals(yourAnser);
 			}
 			if(correct && yourAnser.length() > 0) {
 				checkSentence.getStyle().set("background-color","#c4f8b5"); // Green
@@ -114,12 +114,9 @@ public class TrainView extends AppLayout {
 			    sentenceInOtherLanguage = sentences.get(sentenceNumber).getSentenceInOtherLanguage();
 			    if(!reverseTranslation.getValue()) {
 			    	frenchSentence.setValue(sentenceInFrench);
-			    	String audioPath = "http://localhost:8080/audio/" + sentenceInFrench + ".mp3";
-			    	String audioPath2 = "http://localhost:8080/audio/Un peu.mp3";
-			    	player.setSrc(audioPath);
-			    	
-			    	System.out.println(audioPath);
-			    	
+			    	String audioPath = "/META-INF/resources/audio/" + sentenceInFrench + ".mp3";
+			    	AbstractStreamResource resource = new StreamResource(sentenceInFrench, () -> getClass().getResourceAsStream(audioPath));
+			    	player.getElement().setAttribute("src", resource);
 			    }else {
 			    	frenchSentence.setValue(sentenceInOtherLanguage);
 			    }
@@ -137,8 +134,6 @@ public class TrainView extends AppLayout {
 				yourTranslation.setValue(sentenceInFrench);
 			}
 		});
-		
-
 
 		// Layout
 		HorizontalLayout checkBox_player = new HorizontalLayout(reverseTranslation, player);
