@@ -1,6 +1,5 @@
 package se.danielmartensson.service;
 
-import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +7,7 @@ import org.springframework.stereotype.Service;
 
 import se.danielmartensson.entity.ForeignLanguageAudioPath;
 import se.danielmartensson.entity.Sentence;
-import se.danielmartensson.entity.TranslateFromTo;
 import se.danielmartensson.repository.ForeignLanguageAudioPathRepository;
-import se.danielmartensson.repository.TranslateFromToRepository;
 
 @Service
 public class ForeignLanguageAudioPathService {

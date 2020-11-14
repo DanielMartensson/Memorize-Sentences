@@ -12,7 +12,6 @@ import se.danielmartensson.service.ForeignLanguageAudioPathService;
 import se.danielmartensson.service.SentenceService;
 import se.danielmartensson.tools.Top;
 
-import org.vaadin.crudui.crud.CrudOperation;
 import org.vaadin.crudui.crud.impl.GridCrud;
 import org.vaadin.crudui.form.impl.field.provider.ComboBoxProvider;
 

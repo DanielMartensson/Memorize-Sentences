@@ -5,9 +5,7 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.router.Route;
 
 import se.danielmartensson.entity.ForeignLanguageAudioPath;
-import se.danielmartensson.entity.TranslateFromTo;
 import se.danielmartensson.service.ForeignLanguageAudioPathService;
-import se.danielmartensson.service.TranslateFromToService;
 import se.danielmartensson.tools.Top;
 
 import org.vaadin.crudui.crud.CrudOperation;

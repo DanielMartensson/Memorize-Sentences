@@ -23,7 +23,6 @@ import se.danielmartensson.tools.Top;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -117,8 +116,8 @@ public class TrainView extends AppLayout {
 			    yourSentence = sentences.get(sentenceNumber).getSentenceInYourLanguage();
 			    if(!reverseTranslation.getValue()) {
 			    	sentenceInForeignLanguage.setValue(foreignSentence);
-			    	String audioPath = "Audio/" + selectedTranslateFromTo.getValue().getFromLanguage() + "/" +  foreignSentence + ".mp3";
-					 AbstractStreamResource resource = new StreamResource(foreignSentence, () -> {
+			    	String audioPath = "Sources/Audio/" + selectedTranslateFromTo.getValue().getFromLanguage() + "/" +  foreignSentence + ".mp3";
+					AbstractStreamResource resource = new StreamResource(foreignSentence, () -> {
 							try {
 								return new FileInputStream(audioPath);
 							} catch (FileNotFoundException e1) {
@@ -127,7 +126,7 @@ public class TrainView extends AppLayout {
 							}
 							return null;
 						});
-				    	player.getElement().setAttribute("src", resource);
+				    player.getElement().setAttribute("src", resource);
 				   
 			    }else {
 			    	sentenceInForeignLanguage.setValue(yourSentence);
