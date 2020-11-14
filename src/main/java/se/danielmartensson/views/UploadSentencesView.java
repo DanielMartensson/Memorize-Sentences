@@ -33,7 +33,7 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 
 
-@Route("uploadSentences")
+@Route("uploadsentences")
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 public class UploadSentencesView extends AppLayout {
@@ -63,18 +63,15 @@ public class UploadSentencesView extends AppLayout {
 		upload.setMaxFileSize(30000); // 30 MB
 		Div output = new Div();
 			
-		// Confirm dialog - ask if we going to inser into the database
+		// Confirm dialog - ask if we going to insert into the database
 		Button insert = new Button("Insert into the database");
 		Dialog dialog = new Dialog();
-		insert.setEnabled(false);
-		insert.addClickListener(e -> dialog.open());
+		insert.addClickListener(e -> {
+			if(sentenceList.size() > 0) // We need to have something inside the grid
+				dialog.open();
+		});
 		Button confirmButton = new Button("Yes", event -> {
-			for(SentenceUpload sentenceUpload : sentenceList) {
-				String sentenceInForeignLanguage = sentenceUpload.getSentenceInForeignLanguage();
-				String sentenceInYourLanguage = sentenceUpload.getSentenceInYourLanguage();
-				String yourLanguage = sentenceUpload.getYourLanguage();
-				sentenceService.checkAndSave(sentenceInForeignLanguage, sentenceInYourLanguage, yourLanguage);
-			}
+			uploadToDatabase(sentenceList, sentenceService);
 			dialog.close();
 		});
 		Button cancelButton = new Button("No", event -> {
@@ -84,39 +81,39 @@ public class UploadSentencesView extends AppLayout {
 
 		// Listeners for the uploader
 		upload.addFileRejectedListener(event -> {
-			output.removeAll();
 		    Paragraph component = new Paragraph();
 		    showOutput(event.getErrorMessage(), component, output);
 		});
 		upload.addSucceededListener(event -> {
-			output.removeAll();
-			sentenceList.clear();
-		    boolean correctColumnSize = createGrid(buffer.getInputStream(), sentenceList);
+		    createGrid(buffer.getInputStream(), sentenceList, grid);
 		    Paragraph component = new Paragraph();
 		    showOutput(event.getFileName(), component, output);
-		    if(correctColumnSize) {
-			    insert.setEnabled(true);
-			    grid.setItems(sentenceList);
-		    }
-		});
-		upload.addDetachListener(event ->{
-			output.removeAll();
 		});
 		
+		// Layout
 		HorizontalLayout firstRow = new HorizontalLayout(upload, insert);
 		firstRow.setAlignItems(Alignment.CENTER);
 		setContent(new VerticalLayout(firstRow, grid));
 		
 	}
 	
-	private boolean createGrid(InputStream stream, List<SentenceUpload> sentenceList) {
-		boolean correctColumnSize = false;
+	private void uploadToDatabase(List<SentenceUpload> sentenceList, SentenceService sentenceService) {
+		for(SentenceUpload sentenceUpload : sentenceList) {
+			String sentenceInForeignLanguage = sentenceUpload.getSentenceInForeignLanguage();
+			String sentenceInYourLanguage = sentenceUpload.getSentenceInYourLanguage();
+			String yourLanguage = sentenceUpload.getYourLanguage();
+			sentenceService.checkAndSave(sentenceInForeignLanguage, sentenceInYourLanguage, yourLanguage);
+		}
+	}
+
+	private void createGrid(InputStream stream, List<SentenceUpload> sentenceList, Grid<SentenceUpload> grid) {
 	        try {
 				String[] csvRows = IOUtils.toString(stream, StandardCharsets.UTF_8).split("\n");
 				// Check the first row how many columns
 				if(csvRows[0].split(",").length == 3) {
-					correctColumnSize = true;
+					// Clear the grid first before you fill up the grid again
 					sentenceList.clear();
+					grid.setItems(sentenceList);
 					for(String csvRow : csvRows) {
 						String[] columns = csvRow.split(",");
 						String sentenceInForeignLanguage = columns[0];
@@ -124,12 +121,12 @@ public class UploadSentencesView extends AppLayout {
 						String yourLanguage = columns[2];
 						sentenceList.add(new SentenceUpload(sentenceInForeignLanguage, sentenceInYourLanguage, yourLanguage));
 					}
+				    grid.setItems(sentenceList); // Insert new data to the grid
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	    return correctColumnSize;
 	}
 	
 	private void showOutput(String text, Component content, HasComponents outputContainer) {

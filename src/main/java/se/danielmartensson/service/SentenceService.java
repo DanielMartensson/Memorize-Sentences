@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import se.danielmartensson.entity.Language;
+import se.danielmartensson.entity.YourLanguage;
 import se.danielmartensson.entity.Sentence;
 import se.danielmartensson.repository.SentenceRepository;
 
@@ -26,8 +26,8 @@ public class SentenceService {
 		return sentenceRepository.findAll();
 	}
 	
-	public List<Sentence> findByLanguage(Language language) {
-		return sentenceRepository.findByLanguage(language);
+	public List<Sentence> findByYourLanguage(YourLanguage yourLanguage) {
+		return sentenceRepository.findByYourLanguage(yourLanguage);
 	}
 
 	public Sentence save(Sentence sentence) {
@@ -43,9 +43,9 @@ public class SentenceService {
 	}
 	
 	public void checkAndSave(String sentenceInForeignLanguage, String sentenceInYourLanguage, String yourLanugage) {
-		Language languageObject = languageService.findByLanguage(yourLanugage);
+		YourLanguage languageObject = languageService.findByYourLanguage(yourLanugage);
 		if(languageObject == null) {
-			languageObject = languageService.save(new Language(0L, yourLanugage));
+			languageObject = languageService.save(new YourLanguage(0L, yourLanugage));
 		}
 		boolean sentenceExist = sentenceRepository.existsBySentenceInForeignLanguageAndSentenceInYourLanguage(sentenceInForeignLanguage, sentenceInYourLanguage);
 		if(!sentenceExist) {
@@ -54,7 +54,7 @@ public class SentenceService {
 	}
 
 	@Transactional // Important to have here, else we cannot run this method
-	public void deleteAllThatContains(Language language) {
-		sentenceRepository.deleteByLanguage(language);
+	public void deleteAllThatContains(YourLanguage yourLanguage) {
+		sentenceRepository.deleteByYourLanguage(yourLanguage);
 	}
 }

@@ -29,6 +29,6 @@ public class Sentence {
 	
 	@ManyToOne
 	@NotNull
-	private Language language;
+	private YourLanguage yourLanguage;
 	
 }

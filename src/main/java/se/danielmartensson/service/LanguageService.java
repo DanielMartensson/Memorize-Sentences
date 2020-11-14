@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import se.danielmartensson.entity.Language;
+import se.danielmartensson.entity.YourLanguage;
 import se.danielmartensson.repository.LanguageRepository;
 
 @Service
@@ -20,25 +20,25 @@ public class LanguageService {
 		this.languageRepository = languageRepository;
 	}
 
-	public List<Language> findAll() {
+	public List<YourLanguage> findAll() {
 		return languageRepository.findAll();
 	}
 
-	public Language save(Language language) {
-		return languageRepository.save(language);
+	public YourLanguage save(YourLanguage yourLanguage) {
+		return languageRepository.save(yourLanguage);
 	}
 
-	public void delete(Language language) {
+	public void delete(YourLanguage yourLanguage) {
 		// Important to delete all the sentences first that contains that language
-		sentenceService.deleteAllThatContains(language);
-		languageRepository.delete(language); 
+		sentenceService.deleteAllThatContains(yourLanguage);
+		languageRepository.delete(yourLanguage); 
 	}
 	
 	public boolean existsById(Long id) {
 		return languageRepository.existsById(id);
 	}
 	
-	public Language findByLanguage(String yourLanguage) {
+	public YourLanguage findByYourLanguage(String yourLanguage) {
 		return languageRepository.findByYourLanguage(yourLanguage);
 	}
 }

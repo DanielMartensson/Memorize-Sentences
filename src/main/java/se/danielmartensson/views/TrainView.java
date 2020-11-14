@@ -14,7 +14,7 @@ import com.vaadin.flow.server.AbstractStreamResource;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.StreamResource;
 
-import se.danielmartensson.entity.Language;
+import se.danielmartensson.entity.YourLanguage;
 import se.danielmartensson.entity.Sentence;
 import se.danielmartensson.service.LanguageService;
 import se.danielmartensson.service.SentenceService;
@@ -48,12 +48,12 @@ public class TrainView extends AppLayout {
 		top.setTopAppLayout(this);
 		
 		// Create the select language drop down button
-		Select<Language> seletedLanguage = new Select<>();
+		Select<YourLanguage> seletedLanguage = new Select<>();
 		seletedLanguage.setWidthFull();
 		seletedLanguage.setLabel("Select your language");
-		seletedLanguage.setItems(languageService.findAll()); // Thanks to modified toString in Language class
+		seletedLanguage.setItems(languageService.findAll()); // Thanks to modified toString in YourLanguage class
 		seletedLanguage.addValueChangeListener(e -> {
-			sentences = sentenceService.findByLanguage(e.getValue());
+			sentences = sentenceService.findByYourLanguage(e.getValue());
 			amoutOfSentences = sentences.size();
 		});
 	
@@ -114,7 +114,7 @@ public class TrainView extends AppLayout {
 			    yourSentence = sentences.get(sentenceNumber).getSentenceInYourLanguage();
 			    if(!reverseTranslation.getValue()) {
 			    	sentenceInForeignLanguage.setValue(foreignSentence);
-			    	String audioPath = "/META-INF/resources/audio/" + foreignSentence + ".mp3";
+			    	String audioPath = "/META-INF/resources/audio/" + seletedLanguage.getValue() + "/" +  foreignSentence + ".mp3";
 			    	AbstractStreamResource resource = new StreamResource(foreignSentence, () -> getClass().getResourceAsStream(audioPath));
 			    	player.getElement().setAttribute("src", resource);
 			    }else {

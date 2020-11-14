@@ -7,9 +7,10 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 
-import se.danielmartensson.views.AddLanguageView;
-import se.danielmartensson.views.AddSentenceView;
+import se.danielmartensson.views.LanguagesView;
+import se.danielmartensson.views.SentencesView;
 import se.danielmartensson.views.TrainView;
+import se.danielmartensson.views.UploadAudiosView;
 import se.danielmartensson.views.UploadSentencesView;
 
 public class Top {
@@ -29,20 +30,24 @@ public class Top {
         trainTab.getElement().addEventListener("click", e -> {
         	UI.getCurrent().navigate(TrainView.class);
         });
-        Tab addLanguageTab = new Tab("Add language");
-        addLanguageTab.getElement().addEventListener("click", e -> {
-        	UI.getCurrent().navigate(AddLanguageView.class);
+        Tab languagesTab = new Tab("Languages");
+        languagesTab.getElement().addEventListener("click", e -> {
+        	UI.getCurrent().navigate(LanguagesView.class);
         });
-        Tab addSentenceTab = new Tab("Add sentence");
-        addSentenceTab.getElement().addEventListener("click", e -> {
-        	UI.getCurrent().navigate(AddSentenceView.class);
+        Tab sentencesTab = new Tab("Sentences");
+        sentencesTab.getElement().addEventListener("click", e -> {
+        	UI.getCurrent().navigate(SentencesView.class);
         });
-        Tab uploadSentences = new Tab("Upload sentences");
-        uploadSentences.getElement().addEventListener("click", e -> {
+        Tab uploadSentencesTab = new Tab("Upload sentences");
+        uploadSentencesTab.getElement().addEventListener("click", e -> {
         	UI.getCurrent().navigate(UploadSentencesView.class);
         });
+        Tab uploadAudiosTab = new Tab("Upload audios");
+        uploadAudiosTab.getElement().addEventListener("click", e -> {
+        	UI.getCurrent().navigate(UploadAudiosView.class);
+        });
 
-        tabs = new Tabs(trainTab, addSentenceTab, addLanguageTab, uploadSentences);
+        tabs = new Tabs(trainTab, sentencesTab, languagesTab, uploadSentencesTab, uploadAudiosTab);
         tabs.setOrientation(Tabs.Orientation.VERTICAL);
         
 	}

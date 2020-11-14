@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Language {
+public class YourLanguage {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

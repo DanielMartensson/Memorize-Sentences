@@ -3,7 +3,7 @@ package se.danielmartensson.views;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.router.Route;
-import se.danielmartensson.entity.Language;
+import se.danielmartensson.entity.YourLanguage;
 import se.danielmartensson.service.LanguageService;
 import se.danielmartensson.tools.Top;
 
@@ -11,22 +11,22 @@ import org.vaadin.crudui.crud.CrudOperation;
 import org.vaadin.crudui.crud.impl.GridCrud;
 
 
-@Route("addLanguage")
+@Route("languages")
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
-public class AddLanguageView extends AppLayout {
+public class LanguagesView extends AppLayout {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public AddLanguageView(LanguageService languageService) {
+	public LanguagesView(LanguageService languageService) {
 		Top top = new Top();
 		top.setTopAppLayout(this);
 		
 		// crud instance
-		GridCrud<Language> crud = new GridCrud<>(Language.class);
+		GridCrud<YourLanguage> crud = new GridCrud<>(YourLanguage.class);
 		
 		// grid configuration
 		crud.getGrid().setColumns("yourLanguage");
@@ -34,8 +34,7 @@ public class AddLanguageView extends AppLayout {
         
         // form configuration
         crud.getCrudFormFactory().setUseBeanValidation(true);
-        crud.getCrudFormFactory().setVisibleProperties(CrudOperation.UPDATE, "yourLanguage");
-        crud.getCrudFormFactory().setVisibleProperties(CrudOperation.READ, "yourLanguage");
+        crud.getCrudFormFactory().setVisibleProperties("yourLanguage");
 		
         // layout configuration
         setContent(crud);
