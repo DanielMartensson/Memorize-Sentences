@@ -36,14 +36,14 @@ import org.apache.commons.io.IOUtils;
 @Route("uploadSentences")
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
-public class UploadView extends AppLayout {
+public class UploadSentencesView extends AppLayout {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public UploadView(SentenceService sentenceService, LanguageService languageService) {
+	public UploadSentencesView(SentenceService sentenceService, LanguageService languageService) {
 		Top top = new Top();
 		top.setTopAppLayout(this);
 		createUploader(sentenceService, languageService);
@@ -72,8 +72,8 @@ public class UploadView extends AppLayout {
 			for(SentenceUpload sentenceUpload : sentenceList) {
 				String sentenceInForeignLanguage = sentenceUpload.getSentenceInForeignLanguage();
 				String sentenceInYourLanguage = sentenceUpload.getSentenceInYourLanguage();
-				String yourLanduage = sentenceUpload.getYourLanguage();
-				sentenceService.checkAndSave(sentenceInForeignLanguage, sentenceInYourLanguage, yourLanduage);
+				String yourLanguage = sentenceUpload.getYourLanguage();
+				sentenceService.checkAndSave(sentenceInForeignLanguage, sentenceInYourLanguage, yourLanguage);
 			}
 			dialog.close();
 		});
@@ -116,6 +116,7 @@ public class UploadView extends AppLayout {
 				// Check the first row how many columns
 				if(csvRows[0].split(",").length == 3) {
 					correctColumnSize = true;
+					sentenceList.clear();
 					for(String csvRow : csvRows) {
 						String[] columns = csvRow.split(",");
 						String sentenceInForeignLanguage = columns[0];

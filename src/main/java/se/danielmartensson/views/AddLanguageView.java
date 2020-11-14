@@ -29,17 +29,16 @@ public class AddLanguageView extends AppLayout {
 		GridCrud<Language> crud = new GridCrud<>(Language.class);
 		
 		// grid configuration
-		crud.getGrid().setColumns("language");
+		crud.getGrid().setColumns("yourLanguage");
         crud.getGrid().setColumnReorderingAllowed(true);
         
         // form configuration
         crud.getCrudFormFactory().setUseBeanValidation(true);
-        crud.getCrudFormFactory().setVisibleProperties(CrudOperation.UPDATE, "language");
-        crud.getCrudFormFactory().setVisibleProperties(CrudOperation.READ, "language");
+        crud.getCrudFormFactory().setVisibleProperties(CrudOperation.UPDATE, "yourLanguage");
+        crud.getCrudFormFactory().setVisibleProperties(CrudOperation.READ, "yourLanguage");
 		
         // layout configuration
         setContent(crud);
-        
         
         // logic configuration
         crud.setOperations(

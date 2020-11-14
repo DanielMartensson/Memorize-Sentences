@@ -8,5 +8,5 @@ import se.danielmartensson.entity.Language;
 
 @Repository
 public interface LanguageRepository extends JpaRepository<Language, Long> {
-	Language findByLanguage(String language);
+	Language findByYourLanguage(String language);
 }

@@ -10,7 +10,7 @@ import com.vaadin.flow.component.tabs.Tabs;
 import se.danielmartensson.views.AddLanguageView;
 import se.danielmartensson.views.AddSentenceView;
 import se.danielmartensson.views.TrainView;
-import se.danielmartensson.views.UploadView;
+import se.danielmartensson.views.UploadSentencesView;
 
 public class Top {
 	
@@ -39,7 +39,7 @@ public class Top {
         });
         Tab uploadSentences = new Tab("Upload sentences");
         uploadSentences.getElement().addEventListener("click", e -> {
-        	UI.getCurrent().navigate(UploadView.class);
+        	UI.getCurrent().navigate(UploadSentencesView.class);
         });
 
         tabs = new Tabs(trainTab, addSentenceTab, addLanguageTab, uploadSentences);

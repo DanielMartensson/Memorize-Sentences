@@ -38,7 +38,7 @@ public class LanguageService {
 		return languageRepository.existsById(id);
 	}
 	
-	public Language findByLanguage(String language) {
-		return languageRepository.findByLanguage(language);
+	public Language findByLanguage(String yourLanguage) {
+		return languageRepository.findByYourLanguage(yourLanguage);
 	}
 }
