@@ -7,7 +7,8 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 
-import se.danielmartensson.views.LanguagesView;
+import se.danielmartensson.views.AudiosView;
+import se.danielmartensson.views.TranslateFromToView;
 import se.danielmartensson.views.SentencesView;
 import se.danielmartensson.views.TrainView;
 import se.danielmartensson.views.UploadAudiosView;
@@ -30,13 +31,17 @@ public class Top {
         trainTab.getElement().addEventListener("click", e -> {
         	UI.getCurrent().navigate(TrainView.class);
         });
-        Tab languagesTab = new Tab("Languages");
-        languagesTab.getElement().addEventListener("click", e -> {
-        	UI.getCurrent().navigate(LanguagesView.class);
+        Tab translateFromToTab = new Tab("Translate from to");
+        translateFromToTab.getElement().addEventListener("click", e -> {
+        	UI.getCurrent().navigate(TranslateFromToView.class);
         });
         Tab sentencesTab = new Tab("Sentences");
         sentencesTab.getElement().addEventListener("click", e -> {
         	UI.getCurrent().navigate(SentencesView.class);
+        });
+        Tab audiosTab = new Tab("Audios");
+        audiosTab.getElement().addEventListener("click", e -> {
+        	UI.getCurrent().navigate(AudiosView.class);
         });
         Tab uploadSentencesTab = new Tab("Upload sentences");
         uploadSentencesTab.getElement().addEventListener("click", e -> {
@@ -47,7 +52,7 @@ public class Top {
         	UI.getCurrent().navigate(UploadAudiosView.class);
         });
 
-        tabs = new Tabs(trainTab, sentencesTab, languagesTab, uploadSentencesTab, uploadAudiosTab);
+        tabs = new Tabs(trainTab, sentencesTab, translateFromToTab, audiosTab, uploadSentencesTab, uploadAudiosTab);
         tabs.setOrientation(Tabs.Orientation.VERTICAL);
         
 	}

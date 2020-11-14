@@ -23,9 +23,10 @@ import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.router.Route;
 
-import se.danielmartensson.entity.YourLanguage;
-import se.danielmartensson.entity.SentenceUpload;
-import se.danielmartensson.service.LanguageService;
+import se.danielmartensson.entity.ForeignLanguageAudioPath;
+import se.danielmartensson.entity.TranslateFromTo;
+import se.danielmartensson.service.TranslateFromToService;
+import se.danielmartensson.service.ForeignLanguageAudioPathService;
 import se.danielmartensson.service.SentenceService;
 import se.danielmartensson.tools.Top;
 
@@ -54,13 +55,13 @@ public class UploadAudiosView extends AppLayout {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public UploadAudiosView(SentenceService sentenceService, LanguageService languageService) {
+	public UploadAudiosView(ForeignLanguageAudioPathService foreignLanguageAudioPathService, TranslateFromToService translateFromToService) {
 		Top top = new Top();
 		top.setTopAppLayout(this);
-		createUploader(sentenceService, languageService);
+		createUploader(foreignLanguageAudioPathService, translateFromToService);
 	}
 
-	private void createUploader(SentenceService sentenceService, LanguageService languageService) {
+	private void createUploader(ForeignLanguageAudioPathService foreignLanguageAudioPathService, TranslateFromToService translateFromToService) {
 		// Upload
 		MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
 		Upload upload = new Upload(buffer);
@@ -70,9 +71,9 @@ public class UploadAudiosView extends AppLayout {
 		Div output = new Div();
 		
 		// Language
-		Select<YourLanguage> seletedLanguage = new Select<>();
-		seletedLanguage.setLabel("Select your language");
-		seletedLanguage.setItems(languageService.findAll());
+		Select<String> selectedFromLanguage = new Select<>();
+		selectedFromLanguage.setLabel("Select your foreign language");
+		selectedFromLanguage.setItems(translateFromToService.findAllFromLanguage());
 			
 		// Listeners for the uploader
 		upload.addFileRejectedListener(event -> {
@@ -80,33 +81,40 @@ public class UploadAudiosView extends AppLayout {
 		    showOutput(event.getErrorMessage(), component, output);
 		});
 		upload.addSucceededListener(event -> {
-			if(saveMP3Files(event.getMIMEType(), event.getFileName(), buffer, seletedLanguage)) {
+			if(saveMP3Files(event.getMIMEType(), event.getFileName(), buffer, selectedFromLanguage, foreignLanguageAudioPathService)) {
 				Paragraph component = new Paragraph();
 				showOutput(event.getFileName(), component, output);
 			}
 		});
 		
 		// Layout
-		HorizontalLayout firstRow = new HorizontalLayout(upload, seletedLanguage);
+		HorizontalLayout firstRow = new HorizontalLayout(upload, selectedFromLanguage);
 		setContent(firstRow);
 		
 	}
 	
-	private boolean saveMP3Files(String mimeType, String fileName, MultiFileMemoryBuffer buffer, Select<YourLanguage> seletedLanguage) {
+	private boolean saveMP3Files(String mimeType, String fileName, MultiFileMemoryBuffer buffer, Select<String> selectedFromLanguage, ForeignLanguageAudioPathService foreignLanguageAudioPathService) {
 		// We need to have selected a language first
 		boolean success = false;
-		if(seletedLanguage.getValue() == null) {
+		if(selectedFromLanguage.getValue() == null) {
 			new Notification("Please, select a language first", 3000).open();
 			return success;
 		}
 		
 		try {
-			String audioPath = "/META-INF/resources/audio/" + seletedLanguage.getValue() + "/" + fileName;
+			// Save the MP3 file
+			String audioPath = "Audio/" + selectedFromLanguage.getValue() + "/" + fileName;
 			Path path = Paths.get(audioPath);
 			Files.createDirectories(path.getParent()); // If not exist
 			FileOutputStream fos = new FileOutputStream(audioPath);
 		    fos.write(buffer.getInputStream(fileName).readAllBytes());
 		    fos.close();
+		    
+		    // Save the audio path
+		    ForeignLanguageAudioPath foreignLanguageAudioPath = foreignLanguageAudioPathService.findByFileName(fileName);
+		    foreignLanguageAudioPath.setForeignLanguageAudioPath(audioPath);
+		    foreignLanguageAudioPathService.save(foreignLanguageAudioPath);
+		    
 		    success = true;
 		    return success;
 		} catch (IOException e) {

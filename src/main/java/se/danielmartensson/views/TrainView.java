@@ -14,13 +14,16 @@ import com.vaadin.flow.server.AbstractStreamResource;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.StreamResource;
 
-import se.danielmartensson.entity.YourLanguage;
+import se.danielmartensson.entity.TranslateFromTo;
 import se.danielmartensson.entity.Sentence;
-import se.danielmartensson.service.LanguageService;
+import se.danielmartensson.service.TranslateFromToService;
 import se.danielmartensson.service.SentenceService;
 import se.danielmartensson.tools.AudioPlayer;
 import se.danielmartensson.tools.Top;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -43,17 +46,17 @@ public class TrainView extends AppLayout {
 	private String foreignSentence = "";
 	private String yourSentence = "";
 
-	public TrainView(SentenceService sentenceService, LanguageService languageService) {
+	public TrainView(SentenceService sentenceService, TranslateFromToService translateFromToService) {
 		Top top = new Top();
 		top.setTopAppLayout(this);
 		
 		// Create the select language drop down button
-		Select<YourLanguage> seletedLanguage = new Select<>();
-		seletedLanguage.setWidthFull();
-		seletedLanguage.setLabel("Select your language");
-		seletedLanguage.setItems(languageService.findAll()); // Thanks to modified toString in YourLanguage class
-		seletedLanguage.addValueChangeListener(e -> {
-			sentences = sentenceService.findByYourLanguage(e.getValue());
+		Select<TranslateFromTo> selectedTranslateFromTo = new Select<>();
+		selectedTranslateFromTo.setWidthFull();
+		selectedTranslateFromTo.setLabel("Translate from to");
+		selectedTranslateFromTo.setItems(translateFromToService.findAll()); // Thanks to modified toString in YourLanguage class
+		selectedTranslateFromTo.addValueChangeListener(e -> {
+			sentences = sentenceService.findByTranslateFromTo(e.getValue());
 			amoutOfSentences = sentences.size();
 		});
 	
@@ -114,9 +117,18 @@ public class TrainView extends AppLayout {
 			    yourSentence = sentences.get(sentenceNumber).getSentenceInYourLanguage();
 			    if(!reverseTranslation.getValue()) {
 			    	sentenceInForeignLanguage.setValue(foreignSentence);
-			    	String audioPath = "/META-INF/resources/audio/" + seletedLanguage.getValue() + "/" +  foreignSentence + ".mp3";
-			    	AbstractStreamResource resource = new StreamResource(foreignSentence, () -> getClass().getResourceAsStream(audioPath));
-			    	player.getElement().setAttribute("src", resource);
+			    	String audioPath = "Audio/" + selectedTranslateFromTo.getValue().getFromLanguage() + "/" +  foreignSentence + ".mp3";
+					 AbstractStreamResource resource = new StreamResource(foreignSentence, () -> {
+							try {
+								return new FileInputStream(audioPath);
+							} catch (FileNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							return null;
+						});
+				    	player.getElement().setAttribute("src", resource);
+				   
 			    }else {
 			    	sentenceInForeignLanguage.setValue(yourSentence);
 			    }
@@ -138,7 +150,7 @@ public class TrainView extends AppLayout {
 		// Layout
 		HorizontalLayout checkBox_player = new HorizontalLayout(reverseTranslation, player);
 		checkBox_player.setAlignItems(Alignment.CENTER);
-		VerticalLayout layout = new VerticalLayout(seletedLanguage, checkBox_player, sentenceInForeignLanguage, sentenceInYourLanguage, new HorizontalLayout(nextSentence, seeTheAnswer), checkSentence);
+		VerticalLayout layout = new VerticalLayout(selectedTranslateFromTo, checkBox_player, sentenceInForeignLanguage, sentenceInYourLanguage, new HorizontalLayout(nextSentence, seeTheAnswer), checkSentence);
 		setContent(layout);
 		
 	}

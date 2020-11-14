@@ -4,9 +4,11 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.data.renderer.TextRenderer;
 import com.vaadin.flow.router.Route;
-import se.danielmartensson.entity.YourLanguage;
+import se.danielmartensson.entity.TranslateFromTo;
+import se.danielmartensson.entity.ForeignLanguageAudioPath;
 import se.danielmartensson.entity.Sentence;
-import se.danielmartensson.service.LanguageService;
+import se.danielmartensson.service.TranslateFromToService;
+import se.danielmartensson.service.ForeignLanguageAudioPathService;
 import se.danielmartensson.service.SentenceService;
 import se.danielmartensson.tools.Top;
 
@@ -26,7 +28,7 @@ public class SentencesView extends AppLayout {
 	private static final long serialVersionUID = 1L;
 
 	
-	public SentencesView(SentenceService sentenceService, LanguageService languageService) {
+	public SentencesView(SentenceService sentenceService, TranslateFromToService translateFromToService, ForeignLanguageAudioPathService foreignLanguageAudioPathService) {
 		Top top = new Top();
 		top.setTopAppLayout(this);
 		
@@ -34,13 +36,14 @@ public class SentencesView extends AppLayout {
 		GridCrud<Sentence> crud = new GridCrud<>(Sentence.class);
 		        
     	// grid configuration
-		crud.getGrid().setColumns("sentenceInForeignLanguage", "sentenceInYourLanguage", "yourLanguage");
+		crud.getGrid().setColumns("sentenceInForeignLanguage", "sentenceInYourLanguage", "translateFromTo", "foreignLanguageAudioPath");
         crud.getGrid().setColumnReorderingAllowed(true);
         
         // form configuration
         crud.getCrudFormFactory().setUseBeanValidation(true);
-        crud.getCrudFormFactory().setVisibleProperties("sentenceInForeignLanguage", "sentenceInYourLanguage", "yourLanguage");
-        crud.getCrudFormFactory().setFieldProvider("yourLanguage", new ComboBoxProvider<>("YourLanguage", languageService.findAll(), new TextRenderer<>(YourLanguage::getYourLanguage), YourLanguage::getYourLanguage));
+        crud.getCrudFormFactory().setVisibleProperties("sentenceInForeignLanguage", "sentenceInYourLanguage", "translateFromTo", "foreignLanguageAudioPath");
+        crud.getCrudFormFactory().setFieldProvider("translateFromTo", new ComboBoxProvider<>("TranslateFromTo", translateFromToService.findAll(), new TextRenderer<>(TranslateFromTo::toString), TranslateFromTo::toString));
+        crud.getCrudFormFactory().setFieldProvider("foreignLanguageAudioPath", new ComboBoxProvider<>("ForeignLanguageAudioPath", foreignLanguageAudioPathService.findAll(), new TextRenderer<>(ForeignLanguageAudioPath::getForeignLanguageAudioPath), ForeignLanguageAudioPath::getForeignLanguageAudioPath));
         
         // layout configuration
         setContent(crud);

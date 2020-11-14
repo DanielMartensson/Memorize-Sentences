@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -15,24 +14,20 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Sentence {
+public class TranslateFromTo {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@NotNull
-	private String sentenceInForeignLanguage;
+	private String fromLanguage;
 	
 	@NotNull
-	private String sentenceInYourLanguage;
-	
-	@ManyToOne
-	@NotNull
-	private TranslateFromTo translateFromTo;
-	
-	@ManyToOne
-	@NotNull
-	private ForeignLanguageAudioPath foreignLanguageAudioPath;
-	
+	private String toLanguage;
+
+	@Override
+	public String toString() {
+		return fromLanguage + " - " + toLanguage; // We only want to see this field in the grid
+	}
 }

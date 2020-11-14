@@ -14,17 +14,23 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class YourLanguage {
+public class ForeignLanguageAudioPath {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@NotNull
-	private String yourLanguage;
+	private String language;
+	
+	@NotNull
+	private String fileName;
+	
+	@NotNull
+	private String foreignLanguageAudioPath;
 
 	@Override
 	public String toString() {
-		return yourLanguage; // We only want to see this field in the grid
+		return foreignLanguageAudioPath; // We only want to see this field in the grid
 	}
 }

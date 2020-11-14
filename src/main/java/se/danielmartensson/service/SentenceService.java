@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import se.danielmartensson.entity.YourLanguage;
+import se.danielmartensson.entity.TranslateFromTo;
+import se.danielmartensson.entity.ForeignLanguageAudioPath;
 import se.danielmartensson.entity.Sentence;
 import se.danielmartensson.repository.SentenceRepository;
 
@@ -16,7 +17,10 @@ public class SentenceService {
 	private final SentenceRepository sentenceRepository;
 	
 	@Autowired
-	private LanguageService languageService;
+	private TranslateFromToService translateFromToService;
+	
+	@Autowired
+	private ForeignLanguageAudioPathService foreignLanguageAudioPathService;
 
 	public SentenceService(SentenceRepository sentenceRepository) {
 		this.sentenceRepository = sentenceRepository;
@@ -26,8 +30,8 @@ public class SentenceService {
 		return sentenceRepository.findAll();
 	}
 	
-	public List<Sentence> findByYourLanguage(YourLanguage yourLanguage) {
-		return sentenceRepository.findByYourLanguage(yourLanguage);
+	public List<Sentence> findByTranslateFromTo(TranslateFromTo translateFromTo) {
+		return sentenceRepository.findByTranslateFromTo(translateFromTo);
 	}
 
 	public Sentence save(Sentence sentence) {
@@ -42,19 +46,28 @@ public class SentenceService {
 		return sentenceRepository.existsById(id);
 	}
 	
-	public void checkAndSave(String sentenceInForeignLanguage, String sentenceInYourLanguage, String yourLanugage) {
-		YourLanguage languageObject = languageService.findByYourLanguage(yourLanugage);
-		if(languageObject == null) {
-			languageObject = languageService.save(new YourLanguage(0L, yourLanugage));
-		}
+	public void checkAndSave(String sentenceInForeignLanguage, String sentenceInYourLanguage, String fromLanguage, String toLanguage) {
 		boolean sentenceExist = sentenceRepository.existsBySentenceInForeignLanguageAndSentenceInYourLanguage(sentenceInForeignLanguage, sentenceInYourLanguage);
 		if(!sentenceExist) {
-			save(new Sentence(0L, sentenceInForeignLanguage, sentenceInYourLanguage, languageObject));
+			TranslateFromTo translateFromToObject = translateFromToService.findByFromLanguage(fromLanguage);
+			if(translateFromToObject == null) {
+				translateFromToObject = translateFromToService.save(new TranslateFromTo(0L, fromLanguage, toLanguage));
+			}
+			String fileName = sentenceInForeignLanguage + ".mp3"; 
+			ForeignLanguageAudioPath foreignLanguageAudioPathObject = foreignLanguageAudioPathService.findByFileName(fileName);
+			if(foreignLanguageAudioPathObject == null) {
+				foreignLanguageAudioPathObject = foreignLanguageAudioPathService.save(new ForeignLanguageAudioPath(0L, fromLanguage, fileName, "-"));
+			}
+			save(new Sentence(0L, sentenceInForeignLanguage, sentenceInYourLanguage, translateFromToObject, foreignLanguageAudioPathObject));
 		}
+	}
+	
+	public Sentence findBySentenceInForeignLanguage(String sentenceInForeignLanguage) {
+		return sentenceRepository.findBySentenceInForeignLanguage(sentenceInForeignLanguage);
 	}
 
 	@Transactional // Important to have here, else we cannot run this method
-	public void deleteAllThatContains(YourLanguage yourLanguage) {
-		sentenceRepository.deleteByYourLanguage(yourLanguage);
+	public void deleteAllThatContains(TranslateFromTo translateFromTo) {
+		sentenceRepository.deleteByTranslateFromTo(translateFromTo);
 	}
 }

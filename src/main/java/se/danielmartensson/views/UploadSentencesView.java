@@ -19,8 +19,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
 import com.vaadin.flow.router.Route;
-import se.danielmartensson.entity.SentenceUpload;
-import se.danielmartensson.service.LanguageService;
+
+import se.danielmartensson.entity.ForeignLanguageAudioPath;
+import se.danielmartensson.entity.Sentence;
+import se.danielmartensson.entity.TranslateFromTo;
+import se.danielmartensson.service.TranslateFromToService;
 import se.danielmartensson.service.SentenceService;
 import se.danielmartensson.tools.Top;
 
@@ -43,22 +46,22 @@ public class UploadSentencesView extends AppLayout {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public UploadSentencesView(SentenceService sentenceService, LanguageService languageService) {
+	public UploadSentencesView(SentenceService sentenceService, TranslateFromToService translateFromToService) {
 		Top top = new Top();
 		top.setTopAppLayout(this);
-		createUploader(sentenceService, languageService);
+		createUploader(sentenceService, translateFromToService);
 	}
 
-	private void createUploader(SentenceService sentenceService, LanguageService languageService) {
+	private void createUploader(SentenceService sentenceService, TranslateFromToService translateFromToService) {
 		// Grid
-		List<SentenceUpload> sentenceList = new ArrayList<>();
-		Grid<SentenceUpload> grid = new Grid<>(SentenceUpload.class);
-		grid.setColumns("sentenceInForeignLanguage", "sentenceInYourLanguage", "yourLanguage");
+		List<Sentence> sentenceList = new ArrayList<>();
+		Grid<Sentence> grid = new Grid<>(Sentence.class);
+		grid.setColumns("sentenceInForeignLanguage", "sentenceInYourLanguage", "translateFromTo");
 		
 		MemoryBuffer buffer = new MemoryBuffer();
 		Upload upload = new Upload(buffer);
 		upload.setMaxFiles(1);
-		upload.setDropLabel(new Label("Upload .csv in format SentenceInForeignLanguage,SentenceInYourLanguage,YourLanguage"));
+		upload.setDropLabel(new Label("Upload .csv in format SentenceInForeignLanguage,SentenceInYourLanguage,From,To"));
 		upload.setAcceptedFileTypes("text/csv");
 		upload.setMaxFileSize(30000); // 30 MB
 		Div output = new Div();
@@ -97,20 +100,21 @@ public class UploadSentencesView extends AppLayout {
 		
 	}
 	
-	private void uploadToDatabase(List<SentenceUpload> sentenceList, SentenceService sentenceService) {
-		for(SentenceUpload sentenceUpload : sentenceList) {
-			String sentenceInForeignLanguage = sentenceUpload.getSentenceInForeignLanguage();
-			String sentenceInYourLanguage = sentenceUpload.getSentenceInYourLanguage();
-			String yourLanguage = sentenceUpload.getYourLanguage();
-			sentenceService.checkAndSave(sentenceInForeignLanguage, sentenceInYourLanguage, yourLanguage);
+	private void uploadToDatabase(List<Sentence> sentenceList, SentenceService sentenceService) {
+		for(Sentence sentence : sentenceList) {
+			String sentenceInForeignLanguage = sentence.getSentenceInForeignLanguage();
+			String sentenceInYourLanguage = sentence.getSentenceInYourLanguage();
+			String fromLanguage = sentence.getTranslateFromTo().getFromLanguage();
+			String toLanguage = sentence.getTranslateFromTo().getToLanguage();
+			sentenceService.checkAndSave(sentenceInForeignLanguage, sentenceInYourLanguage, fromLanguage, toLanguage);
 		}
 	}
 
-	private void createGrid(InputStream stream, List<SentenceUpload> sentenceList, Grid<SentenceUpload> grid) {
+	private void createGrid(InputStream stream, List<Sentence> sentenceList, Grid<Sentence> grid) {
 	        try {
 				String[] csvRows = IOUtils.toString(stream, StandardCharsets.UTF_8).split("\n");
 				// Check the first row how many columns
-				if(csvRows[0].split(",").length == 3) {
+				if(csvRows[0].split(",").length == 4) {
 					// Clear the grid first before you fill up the grid again
 					sentenceList.clear();
 					grid.setItems(sentenceList);
@@ -118,8 +122,9 @@ public class UploadSentencesView extends AppLayout {
 						String[] columns = csvRow.split(",");
 						String sentenceInForeignLanguage = columns[0];
 						String sentenceInYourLanguage = columns[1];
-						String yourLanguage = columns[2];
-						sentenceList.add(new SentenceUpload(sentenceInForeignLanguage, sentenceInYourLanguage, yourLanguage));
+						TranslateFromTo yourLanguage = new TranslateFromTo(0L, columns[2], columns[3]);
+						ForeignLanguageAudioPath foreignLanguageAudioPath = new se.danielmartensson.entity.ForeignLanguageAudioPath(); // Not going to see this in the grid
+						sentenceList.add(new Sentence(0L, sentenceInForeignLanguage, sentenceInYourLanguage, yourLanguage, foreignLanguageAudioPath));
 					}
 				    grid.setItems(sentenceList); // Insert new data to the grid
 				}
