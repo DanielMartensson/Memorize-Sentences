@@ -21,7 +21,7 @@ public class ForeignLanguageAudioPath {
 	private Long id;
 	
 	@NotNull
-	private String language;
+	private String fromLanguage;
 	
 	@NotNull
 	private String fileName;

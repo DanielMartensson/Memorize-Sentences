@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import se.danielmartensson.entity.ForeignLanguageAudioPath;
 import se.danielmartensson.entity.Sentence;
@@ -30,11 +31,11 @@ public class ForeignLanguageAudioPathService {
 	}
 
 	public void delete(ForeignLanguageAudioPath foreignLanguageAudioPath) {
-		// Important to remove the audio path to sentence before deleting the audio
-		Sentence sentence = sentenceService.findBySentenceInForeignLanguage(foreignLanguageAudioPath.getFileName().replace(".mp3", "")); // fileName and foreign language sentence is the same
-		sentence.getForeignLanguageAudioPath().setForeignLanguageAudioPath("-");
-		sentenceService.save(sentence);
-		foreignLanguageAudioPathRepository.delete(foreignLanguageAudioPath); 
+		Sentence sentence = sentenceService.findBySentenceInForeignLanguage(foreignLanguageAudioPath.getFileName().replace(".mp3", "")); // fileName and sentenceInForeignLanguage is the same
+		if(sentence != null) {
+			sentenceService.delete(sentence);
+		}
+		foreignLanguageAudioPathRepository.delete(foreignLanguageAudioPath);
 	}
 	
 	public boolean existsById(Long id) {
@@ -43,5 +44,10 @@ public class ForeignLanguageAudioPathService {
 	
 	public ForeignLanguageAudioPath findByFileName(String fileName) {
 		return foreignLanguageAudioPathRepository.findByFileName(fileName);
+	}
+
+	@Transactional // Important to have here, else we cannot run this method
+	public void deleteAllThatContains(String fromLanguage) {
+		foreignLanguageAudioPathRepository.deleteByFromLanguage(fromLanguage);
 	}
 }

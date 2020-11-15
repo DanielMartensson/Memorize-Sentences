@@ -30,16 +30,16 @@ public class AudiosView extends AppLayout {
 		GridCrud<ForeignLanguageAudioPath> crud = new GridCrud<>(ForeignLanguageAudioPath.class);
 		
 		// grid configuration
-		crud.getGrid().setColumns("language", "fileName", "foreignLanguageAudioPath");
+		crud.getGrid().setColumns("fromLanguage", "fileName", "foreignLanguageAudioPath");
         crud.getGrid().setColumnReorderingAllowed(true);
         
         // form configuration
         crud.getCrudFormFactory().setUseBeanValidation(true);
-        crud.getCrudFormFactory().setVisibleProperties("language", "fileName", "foreignLanguageAudioPath");
-        crud.getCrudFormFactory().setDisabledProperties(CrudOperation.DELETE, "language", "fileName", "foreignLanguageAudioPath");
-        crud.getCrudFormFactory().setDisabledProperties(CrudOperation.ADD, "language", "fileName", "foreignLanguageAudioPath");
-        crud.getCrudFormFactory().setDisabledProperties(CrudOperation.UPDATE, "language", "fileName", "foreignLanguageAudioPath");
-        crud.getCrudFormFactory().setDisabledProperties(CrudOperation.READ, "language", "fileName", "foreignLanguageAudioPath");
+        crud.getCrudFormFactory().setVisibleProperties("fromLanguage", "fileName", "foreignLanguageAudioPath");
+        crud.getCrudFormFactory().setDisabledProperties(CrudOperation.DELETE, "fromLanguage", "fileName", "foreignLanguageAudioPath");
+        crud.getCrudFormFactory().setDisabledProperties(CrudOperation.ADD, "fromLanguage", "fileName", "foreignLanguageAudioPath");
+        crud.getCrudFormFactory().setDisabledProperties(CrudOperation.UPDATE, "fromLanguage", "fileName", "foreignLanguageAudioPath");
+        crud.getCrudFormFactory().setDisabledProperties(CrudOperation.READ, "fromLanguage", "fileName", "foreignLanguageAudioPath");
         
         // layout configuration
         setContent(crud);

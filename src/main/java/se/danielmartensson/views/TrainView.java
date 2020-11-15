@@ -116,7 +116,7 @@ public class TrainView extends AppLayout {
 			    yourSentence = sentences.get(sentenceNumber).getSentenceInYourLanguage();
 			    if(!reverseTranslation.getValue()) {
 			    	sentenceInForeignLanguage.setValue(foreignSentence);
-			    	String audioPath = "Sources/Audio/" + selectedTranslateFromTo.getValue().getFromLanguage() + "/" +  foreignSentence + ".mp3";
+			    	String audioPath = "Source/Audio/" + selectedTranslateFromTo.getValue().getFromLanguage() + "/" +  foreignSentence + ".mp3";
 					AbstractStreamResource resource = new StreamResource(foreignSentence, () -> {
 							try {
 								return new FileInputStream(audioPath);
@@ -126,8 +126,8 @@ public class TrainView extends AppLayout {
 							}
 							return null;
 						});
-				    player.getElement().setAttribute("src", resource);
-				   
+					if(resource != null)
+						player.getElement().setAttribute("src", resource);
 			    }else {
 			    	sentenceInForeignLanguage.setValue(yourSentence);
 			    }
@@ -147,9 +147,9 @@ public class TrainView extends AppLayout {
 		});
 
 		// Layout
-		HorizontalLayout checkBox_player = new HorizontalLayout(reverseTranslation, player);
-		checkBox_player.setAlignItems(Alignment.CENTER);
-		VerticalLayout layout = new VerticalLayout(selectedTranslateFromTo, checkBox_player, sentenceInForeignLanguage, sentenceInYourLanguage, new HorizontalLayout(nextSentence, seeTheAnswer), checkSentence);
+		HorizontalLayout reverse_check = new HorizontalLayout(checkSentence, reverseTranslation);
+		reverse_check.setAlignItems(Alignment.CENTER);
+		VerticalLayout layout = new VerticalLayout(selectedTranslateFromTo, player, sentenceInForeignLanguage, sentenceInYourLanguage, new HorizontalLayout(nextSentence, seeTheAnswer), reverse_check);
 		setContent(layout);
 		
 	}

@@ -12,6 +12,7 @@ import se.danielmartensson.service.ForeignLanguageAudioPathService;
 import se.danielmartensson.service.SentenceService;
 import se.danielmartensson.tools.Top;
 
+import org.vaadin.crudui.crud.CrudOperation;
 import org.vaadin.crudui.crud.impl.GridCrud;
 import org.vaadin.crudui.form.impl.field.provider.ComboBoxProvider;
 
@@ -41,6 +42,9 @@ public class SentencesView extends AppLayout {
         // form configuration
         crud.getCrudFormFactory().setUseBeanValidation(true);
         crud.getCrudFormFactory().setVisibleProperties("sentenceInForeignLanguage", "sentenceInYourLanguage", "translateFromTo", "foreignLanguageAudioPath");
+        crud.getCrudFormFactory().setDisabledProperties(CrudOperation.ADD, "sentenceInForeignLanguage", "sentenceInYourLanguage", "translateFromTo", "foreignLanguageAudioPath");
+        crud.getCrudFormFactory().setDisabledProperties(CrudOperation.UPDATE, "sentenceInForeignLanguage", "sentenceInYourLanguage", "translateFromTo", "foreignLanguageAudioPath");
+        crud.getCrudFormFactory().setDisabledProperties(CrudOperation.READ, "sentenceInForeignLanguage", "sentenceInYourLanguage", "translateFromTo", "foreignLanguageAudioPath");
         crud.getCrudFormFactory().setFieldProvider("translateFromTo", new ComboBoxProvider<>("TranslateFromTo", translateFromToService.findAll(), new TextRenderer<>(TranslateFromTo::toString), TranslateFromTo::toString));
         crud.getCrudFormFactory().setFieldProvider("foreignLanguageAudioPath", new ComboBoxProvider<>("ForeignLanguageAudioPath", foreignLanguageAudioPathService.findAll(), new TextRenderer<>(ForeignLanguageAudioPath::getForeignLanguageAudioPath), ForeignLanguageAudioPath::getForeignLanguageAudioPath));
         

@@ -9,4 +9,5 @@ import se.danielmartensson.entity.ForeignLanguageAudioPath;
 @Repository
 public interface ForeignLanguageAudioPathRepository extends JpaRepository<ForeignLanguageAudioPath, Long> {
 	ForeignLanguageAudioPath findByFileName(String fileName);
+	void deleteByFromLanguage(String language);
 }

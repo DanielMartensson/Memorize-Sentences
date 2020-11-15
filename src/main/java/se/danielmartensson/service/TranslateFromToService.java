@@ -16,6 +16,9 @@ public class TranslateFromToService {
 	
 	@Autowired
 	private SentenceService sentenceService;
+	
+	@Autowired
+	private ForeignLanguageAudioPathService foreignLanguageAudioPathService;
 
 	public TranslateFromToService(TranslateFromToRepository translateFromToRepository) {
 		this.translateFromToRepository = translateFromToRepository;
@@ -40,6 +43,7 @@ public class TranslateFromToService {
 	public void delete(TranslateFromTo translateFromTo) {
 		// Important to delete all the sentences first that contains that language
 		sentenceService.deleteAllThatContains(translateFromTo);
+		foreignLanguageAudioPathService.deleteAllThatContains(translateFromTo.getFromLanguage());
 		translateFromToRepository.delete(translateFromTo); 
 	}
 	

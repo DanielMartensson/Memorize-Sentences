@@ -39,7 +39,9 @@ public class SentenceService {
 	}
 
 	public void delete(Sentence sentence) {
+		// Important to delete the sentece first
 		sentenceRepository.delete(sentence);
+		foreignLanguageAudioPathService.delete(sentence.getForeignLanguageAudioPath()); // Must delete the path first
 	}
 	
 	public boolean existsById(Long id) {
@@ -70,4 +72,5 @@ public class SentenceService {
 	public void deleteAllThatContains(TranslateFromTo translateFromTo) {
 		sentenceRepository.deleteByTranslateFromTo(translateFromTo);
 	}
+	
 }

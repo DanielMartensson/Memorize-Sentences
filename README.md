@@ -1,40 +1,51 @@
-# Learn French
+# Memorize sentences
 
-This is a web application for lazy users that want to have a custom made memorize training tool.
-Here you can insert all your sentences and French sentences and try to memorize them by using the train tab.
+Have you trouble learning a new language? You know the basics of the language but still struggling to build sentences.
+You have tried lots of apps on Android/IPhone and you feel still as a beginner. That's because you haven't been given the 
+possibility to learn the language reflexes. Everything someone salutes you, you salutes back in the same way you always do.
+Not because you are thinking what you are saying. It just comes out because you are so used to these words. 
 
-You don't need to modify anything if you want to use another language instead of French.
+This web application will give you the possibility to memorize and train the same sentences over and over again. 
+The features of this project is:
+
+    - Implement own sentences in any foreign language.
+    - Learn how to pronounce them by listen to the media player.
+    - Learn how to spell each sentence and check if you have spelled correct.
+    - If you don't know how to spell that sentence, there is an option that you can select so the answers reveals.
+    - Suitable for mobile, tablet as well as desktop. 
 
 Translate French to your language 
 
-![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Check%201.png)
+![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Picture%201.png)
 
 It will correct you if you enter wrong sentence
 
-![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Check%202.png)
+![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Picture%202.png)
 
 You can also do the reverse way
 
-![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Check%203.png)
+![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Picture%203.png)
 
-And upload own sentences in other languages. Please create a csv file with the format frenchSentence,yourSentence,yourLanguage e.g
+Upload new languages
 
-```
-Oui,Yes,English
-Oui,Ja,Svenska
-Bonjour,Goddag,Svenska
-Au revoir,Good bye,English
-Au revoir,Adjö,Svenska
-```
-
-There is CSV files that already made by me, in Swedish and in French. Have a look at the `Languages CSV` folder.
-
-![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Upload.png)
+![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Picture%204.png)
 
 Here you can modify your database with the sentences
 
-![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Database.png)
+![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Picture%205.png)
 
+Desktop version
+
+![a](https://raw.githubusercontent.com/DanielMartensson/Learn-French/main/Pictures/Picture%206.png)
+
+# How to upload new languages
+
+1. Begin to create a CSV file that looks like CSV file examples: Source -> Languages
+2. Go to the web site https://ttsmp3.com/ 
+3. Select a your desired language and voice
+4. Open this small Java mouse-keyboard macro of 150 lines of code: Source -> TTSDownloader -> TSSDownloader.java
+5. Set the coordinates, path to your CSV file and the rest of the configuration
+6. Start the Java macro and then quickly pick up the ttsmp3 website and let the macro read your CSV file and download all the mp3 files
 
 # How to install - Ubuntu user
 
@@ -50,7 +61,7 @@ Maven
 sudo apt-get install maven
 ```
 
-NodeJS - This is used if you want to work on this project. If you only want to run this project, you don't need NodeJS.
+NodeJS
 ```
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt-get install -y nodejs
@@ -93,7 +104,7 @@ bind-address            = 127.0.0.1
 
 To your LAN address where the server is installed on e.g
 ```
-bind-address            = 192.168.1.34
+bind-address            = 192.168.1.35
 ```
 
 Then restart your MySQL server
@@ -103,9 +114,9 @@ sudo /etc/init.d/mysql restart
 
 If you don't know your LAN address, you can type in this command in linux `ifconfig` in the terminal
 
-6. Download `Learn-French`
+5. Download `Memorize-Sentences`
 
-Download the `Learn-French` and change the `application.properties` in the `/src/main/resources` folder.
+Download the `Memorize-Sentences` and change the `application.properties` in the `/src/main/resources` folder.
 Here you can set the configuration for your database LAN address, user and password.
 
 ```
@@ -118,22 +129,16 @@ logging.level.org.atmosphere = warn
 spring.jpa.show-sql=true
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
-spring.datasource.url=jdbc:mysql://YOUR_MYSQL_SERVER_ADDRESS:3306/LearnFrench?createDatabaseIfNotExist=true&serverTimezone=CET
+spring.datasource.url=jdbc:mysql://YOUR_MYSQL_SERVER_ADDRESS:3306/MemorizeSentences?createDatabaseIfNotExist=true&serverTimezone=CET
 spring.datasource.username=myUserSQL
 spring.datasource.password=myPasswordSQL
 ```
 
-7. Pack this project and run
+6. Run this project
 
-First stand inside of the folder `Learn-French` and write inside your terminal
+First stand inside of the folder `Memorize-Sentences` and write inside your terminal
 ```
-mvn package -Pproduction
-```
-
-Now a package named `learn-french-1.0-SNAPSHOT.jar` was created. Run it by this command
-
-```
-sudo java -jar learn-french-1.0-SNAPSHOT.jar
+mvn spring-boot:run -Pproduction
 ```
 
-Now you can access this web application at your web browser with the URL link e.g `http://192.168.1.34:8080`
+Now you can go to your web browser and type in the local IP address of the computer there you started this Vaadin application.
