@@ -47,6 +47,13 @@ Desktop version
 5. Set the coordinates, path to your CSV file and the rest of the configuration
 6. Start the Java macro and then quickly pick up the ttsmp3 website and let the macro read your CSV file and download all the mp3 files
 
+# How to use pre-made languages
+
+1. Go to folder: Source -> Languages
+2. Select a CSV file that you like
+3. Upload it
+4. Select the same audios and upload them as well. You can find them from folder: Source -> Audios
+
 # How to install - Ubuntu user
 
 1. Install Java 11, Maven, NodeJS
