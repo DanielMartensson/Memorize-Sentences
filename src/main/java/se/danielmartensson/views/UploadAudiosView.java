@@ -98,9 +98,8 @@ public class UploadAudiosView extends AppLayout {
 		    	// Save the path to the database as well
 			    foreignLanguageAudioPath.setForeignLanguageAudioPath(audioPath);
 			    foreignLanguageAudioPathService.save(foreignLanguageAudioPath);
+			    success = true;
 		    }
-		    
-		    success = true;
 		    return success;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
