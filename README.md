@@ -52,7 +52,7 @@ Desktop version
 1. Go to folder: Source -> Languages
 2. Select a CSV file that you like
 3. Upload it
-4. Select the same audios and upload them as well. You can find them from folder: Source -> Audios
+4. Select the same audios and upload them as well. You can find them from folder: Source -> Audios (UPDATE: Will upload soon)
 
 # How to install - Ubuntu user
 
