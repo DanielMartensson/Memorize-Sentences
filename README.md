@@ -40,10 +40,10 @@ Desktop version
 
 # How to upload new languages
 
-1. Begin to create a CSV file that looks like CSV file examples: Source -> Languages
+1. Begin to create a CSV file that looks like CSV file examples. Go to folder: Source -> Languages
 2. Go to the web site https://ttsmp3.com/ 
 3. Select a your desired language and voice
-4. Open this small Java mouse-keyboard macro of 150 lines of code: Source -> TTSDownloader -> TSSDownloader.java
+4. Open this small Java mouse-keyboard macro of 150 lines of code. Go to folder: Source -> TTSDownloader -> TSSDownloader.java
 5. Set the coordinates, path to your CSV file and the rest of the configuration
 6. Start the Java macro and then quickly pick up the ttsmp3 website and let the macro read your CSV file and download all the mp3 files
 
