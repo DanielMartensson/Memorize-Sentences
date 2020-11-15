@@ -116,7 +116,7 @@ public class TrainView extends AppLayout {
 			    yourSentence = sentences.get(sentenceNumber).getSentenceInYourLanguage();
 			    if(!reverseTranslation.getValue()) {
 			    	sentenceInForeignLanguage.setValue(foreignSentence);
-			    	String audioPath = "Source/Audio/" + selectedTranslateFromTo.getValue().getFromLanguage() + "/" +  foreignSentence + ".mp3";
+			    	String audioPath = "Source/Audios/" + selectedTranslateFromTo.getValue().getFromLanguage() + "/" +  foreignSentence + ".mp3";
 					AbstractStreamResource resource = new StreamResource(foreignSentence, () -> {
 							try {
 								return new FileInputStream(audioPath);

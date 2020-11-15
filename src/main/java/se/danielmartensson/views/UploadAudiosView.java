@@ -89,7 +89,7 @@ public class UploadAudiosView extends AppLayout {
 		    ForeignLanguageAudioPath foreignLanguageAudioPath = foreignLanguageAudioPathService.findByFileName(fileName);
 		    if(foreignLanguageAudioPath != null) {
 				// Save the MP3 file
-				String audioPath = "Source/Audio/" + selectedFromLanguage.getValue() + "/" + fileName;
+				String audioPath = "Source/Audios/" + selectedFromLanguage.getValue() + "/" + fileName;
 				Path path = Paths.get(audioPath);
 				Files.createDirectories(path.getParent()); // If not exist
 				FileOutputStream fos = new FileOutputStream(audioPath);
