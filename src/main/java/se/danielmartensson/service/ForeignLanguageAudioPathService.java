@@ -1,5 +1,6 @@
 package se.danielmartensson.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,11 @@ public class ForeignLanguageAudioPathService {
 	public void delete(ForeignLanguageAudioPath foreignLanguageAudioPath) {
 		Sentence sentence = sentenceService.findBySentenceInForeignLanguage(foreignLanguageAudioPath.getFileName().replace(".mp3", "")); // fileName and sentenceInForeignLanguage is the same
 		if(sentence != null) {
-			sentenceService.delete(sentence);
+			sentenceService.delete(sentence); // If we detected this from the Audio CRUD
 		}
 		foreignLanguageAudioPathRepository.delete(foreignLanguageAudioPath);
+		File deleteAudioFile = new File(foreignLanguageAudioPath.getForeignLanguageAudioPath());
+		deleteAudioFile.delete();
 	}
 	
 	public boolean existsById(Long id) {

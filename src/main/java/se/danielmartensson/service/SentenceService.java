@@ -1,5 +1,6 @@
 package se.danielmartensson.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,9 @@ public class SentenceService {
 	public void delete(Sentence sentence) {
 		// Important to delete the sentece first
 		sentenceRepository.delete(sentence);
-		foreignLanguageAudioPathService.delete(sentence.getForeignLanguageAudioPath()); // Must delete the path first
+		foreignLanguageAudioPathService.delete(sentence.getForeignLanguageAudioPath());
+		File deleteAudioFile = new File(sentence.getForeignLanguageAudioPath().getForeignLanguageAudioPath());
+		deleteAudioFile.delete();
 	}
 	
 	public boolean existsById(Long id) {
