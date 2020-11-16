@@ -41,7 +41,7 @@ public class TTSDownloader {
 	private final static int CENTER_OF_TEXT_AREA_Y = 514;
 
 	// Path to the CSV file
-	private final static String pathCSVFile = "/home/dell/French_Swedish_Step_1.csv";
+	private final static String pathCSVFile = "/home/dell/Français/Courrier - Post.csv";
 	
 	// Path to the folder where all the .mp3 are
 	private final static String pathDownloadFolder = "/home/dell/Hämtningar";
@@ -99,9 +99,11 @@ public class TTSDownloader {
 	}
 
 	private static void renameSingleFile(Robot robot, String pathdownloadfolder, String contains, String sentence) {
-		robot.delay(3000);
+		robot.delay(5000);
 		File[] renameThisFile = new File(pathdownloadfolder).listFiles((d, name) -> name.contains(contains));
-		renameThisFile[0].renameTo(new File(pathdownloadfolder + "/" + sentence + ".mp3")); // e.g /home/computer/download/MyMP3.mp3
+		String filePath = pathdownloadfolder + "/" + sentence + ".mp3";
+		System.out.println(filePath);
+		renameThisFile[0].renameTo(new File(filePath)); // e.g /home/computer/download/MyMP3.mp3
 	}
 
 	private static void moveToOKDownloadButton(Robot robot) {
