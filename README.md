@@ -40,13 +40,13 @@ Desktop version
 
 # How to upload new languages
 
-1. Begin to create a CSV file that looks like CSV file examples. Go to folder: `Source -> Languages`
+1. Begin to create a CSV file `(Format: ISO-8859-1)` that looks like CSV file examples. Go to folder: `Source -> Languages`
 2. Download and install `ffmpeg`
 3. Select a desired Youtube video e.g `Learn...by sleeping` 
 4. Download that video that you find useful. The video need to have that have a very clear speech from a native speaker
 5. Cut the video in this example
 
-Where `$1$` is the start time argument, `$2` is how long time the cut should have, `$3` is the name of the `.mp3` file that being saved. 
+Where `$1` is the start time argument, `$2` is how long time the cut should have, `$3` is the name of the `.mp3` file that being saved. 
 ```
 ffmpeg -ss $1 -i input.mp4 -t $2 "$3".mp3
 ```

@@ -49,8 +49,8 @@ public class UploadAudiosView extends AppLayout {
 		MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
 		Upload upload = new Upload(buffer);
 		upload.setDropLabel(new Label("Upload .mp3 files that corresponds to the sentences"));
-		//upload.setAcceptedFileTypes("audio/mp3");
-		upload.setMaxFileSize(30000); // 30 MB
+		upload.setAcceptedFileTypes("audio/mpeg", "audio/mp3");
+		//upload.setMaxFileSize(300000); // 300 MB
 		Div output = new Div();
 		
 		// Language
@@ -58,7 +58,7 @@ public class UploadAudiosView extends AppLayout {
 		selectedFromLanguage.setLabel("Select your foreign language");
 		selectedFromLanguage.setItems(translateFromToService.findAllFromLanguage());
 			
-		// Listeners for the uploader
+		// Listeners for the up loader
 		upload.addFileRejectedListener(event -> {
 		    Paragraph component = new Paragraph();
 		    showOutput(event.getErrorMessage(), component, output);
@@ -69,11 +69,14 @@ public class UploadAudiosView extends AppLayout {
 				showOutput(event.getFileName(), component, output);
 			}
 		});
+		upload.addFailedListener(event ->{
+			Paragraph component = new Paragraph();
+			showOutput(event.getFileName() + " was failed", component, output);
+		});
 		
 		// Layout
 		HorizontalLayout firstRow = new HorizontalLayout(upload, selectedFromLanguage);
 		setContent(firstRow);
-		
 	}
 	
 	private boolean saveMP3Files(String mimeType, String fileName, MultiFileMemoryBuffer buffer, Select<String> selectedFromLanguage, ForeignLanguageAudioPathService foreignLanguageAudioPathService) {

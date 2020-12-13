@@ -112,7 +112,7 @@ public class UploadSentencesView extends AppLayout {
 
 	private void createGrid(InputStream stream, List<Sentence> sentenceList, Grid<Sentence> grid) {
 	        try {
-				String[] csvRows = IOUtils.toString(stream, StandardCharsets.UTF_8).split("\n");
+				String[] csvRows = IOUtils.toString(stream, StandardCharsets.ISO_8859_1).split("\n");
 				// Check the first row how many columns
 				if(csvRows[0].split(",").length == 4) {
 					// Clear the grid first before you fill up the grid again
