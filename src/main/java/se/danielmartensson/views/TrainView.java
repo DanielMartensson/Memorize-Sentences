@@ -91,13 +91,13 @@ public class TrainView extends AppLayout {
 		// Check Sentence in your language
 		Button checkSentence = new Button("Check");
 		checkSentence.addClickListener(e -> {
-			String yourAnswer = sentenceInYourLanguage.getValue().toLowerCase().replace(" ", "");
+			String yourAnswer = cleanSentence(sentenceInYourLanguage.getValue());
 			boolean correct = false;
 			if(!reverseTranslation.getValue()) {
-				String theAnswer = yourSentence.toLowerCase().replace(" ", "");
+				String theAnswer = cleanSentence(yourSentence);
 				correct = theAnswer.equals(yourAnswer); 
 			}else {
-				String theAnswer = foreignSentence.toLowerCase().replace(" ", "");
+				String theAnswer = cleanSentence(foreignSentence);
 			    correct = theAnswer.equals(yourAnswer);
 			}
 			if(correct && yourAnswer.length() > 0) {
@@ -151,6 +151,15 @@ public class TrainView extends AppLayout {
 		reverse_check.setAlignItems(Alignment.CENTER);
 		VerticalLayout layout = new VerticalLayout(selectedTranslateFromTo, player, sentenceInForeignLanguage, sentenceInYourLanguage, new HorizontalLayout(nextSentence, seeTheAnswer), reverse_check);
 		setContent(layout);
+		
+	}
+
+	private String cleanSentence(String sentence) {
+		sentence = sentence.toLowerCase(); // No case sensitive
+		sentence = sentence.replace(" ", ""); // No space sensitive
+		sentence = sentence.replace("(f)", ""); // No feminine "(f)" mark
+		sentence = sentence.replace("(i)", ""); // No informal "(i)" mark
+		return sentence;
 		
 	}
 }

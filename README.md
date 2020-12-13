@@ -40,19 +40,32 @@ Desktop version
 
 # How to upload new languages
 
-1. Begin to create a CSV file that looks like CSV file examples. Go to folder: Source -> Languages
-2. Go to the web site https://ttsmp3.com/ 
-3. Select a your desired language and voice
-4. Open this small Java mouse-keyboard macro of 150 lines of code. Go to folder: Source -> TTSDownloader -> TSSDownloader.java
-5. Set the coordinates, path to your CSV file and the rest of the configuration
-6. Start the Java macro and then quickly pick up the ttsmp3 website and let the macro read your CSV file and download all the mp3 files
+1. Begin to create a CSV file that looks like CSV file examples. Go to folder: `Source -> Languages`
+2. Download and install `ffmpeg`
+3. Select a desired Youtube video e.g `Learn...by sleeping` 
+4. Download that video that you find useful. The video need to have that have a very clear speech from a native speaker
+5. Cut the video in this example
+
+Where `$1$ is the start time argument, `$2` is how long time the cut should have, `$3` is the name of the `.mp3` file that being saved. 
+```
+ffmpeg -ss $1 -i input.mp4 -t $2 "$3".mp3
+```
+
+Example:
+
+```
+ffmpeg -ss 00:12:21 -i YourVideoName.mp4 -t 5 "The food was good".mp3
+```
+
+Collect lots of sentences and collect them all into a `.csv` file as I have done. See examples in `Source -> Languages`
+ 
 
 # How to use pre-made languages
 
-1. Go to folder: Source -> Languages
+1. Go to folder: `Source -> Languages`
 2. Select a CSV file that you like
 3. Upload it
-4. Select the same audios and upload them as well. You can find them from folder: Source -> Audios (UPDATE: Will upload soon)
+4. Select the same audios and upload them as well. You can find them from folder: `Source -> Audios`
 
 # How to install - Ubuntu user
 
