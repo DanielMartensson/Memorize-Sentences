@@ -46,7 +46,7 @@ Desktop version
 4. Download that video that you find useful. The video need to have that have a very clear speech from a native speaker
 5. Cut the video in this example
 
-Where `$1$ is the start time argument, `$2` is how long time the cut should have, `$3` is the name of the `.mp3` file that being saved. 
+Where `$1$` is the start time argument, `$2` is how long time the cut should have, `$3` is the name of the `.mp3` file that being saved. 
 ```
 ffmpeg -ss $1 -i input.mp4 -t $2 "$3".mp3
 ```
