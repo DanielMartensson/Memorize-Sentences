@@ -1,6 +1,5 @@
 package se.danielmartensson.views;
 
-import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
