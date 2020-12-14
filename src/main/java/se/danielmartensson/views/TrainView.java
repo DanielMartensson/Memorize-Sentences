@@ -1,5 +1,6 @@
 package se.danielmartensson.views;
 
+import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -26,12 +27,8 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Random;
 
-
 @Route("")
-@PWA(name = "Vaadin Application",
-        shortName = "Vaadin App",
-        description = "This is an example Vaadin application.",
-        enableInstallPrompt = false)
+@PWA(name = "Vaadin Application", shortName = "Vaadin App", description = "This is an example Vaadin application.", enableInstallPrompt = false)
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 public class TrainView extends AppLayout {
@@ -48,7 +45,7 @@ public class TrainView extends AppLayout {
 	public TrainView(SentenceService sentenceService, TranslateFromToService translateFromToService) {
 		Top top = new Top();
 		top.setTopAppLayout(this);
-		
+
 		// Create the select language drop down button
 		Select<TranslateFromTo> selectedTranslateFromTo = new Select<>();
 		selectedTranslateFromTo.setWidthFull();
@@ -58,7 +55,7 @@ public class TrainView extends AppLayout {
 			sentences = sentenceService.findByTranslateFromTo(e.getValue());
 			amoutOfSentences = sentences.size();
 		});
-	
+
 		// Text fields
 		TextField sentenceInForeignLanguage = new TextField();
 		sentenceInForeignLanguage.setLabel("Sentence in foreign language");
@@ -67,91 +64,103 @@ public class TrainView extends AppLayout {
 		TextField sentenceInYourLanguage = new TextField();
 		sentenceInYourLanguage.setLabel("Sentence in your language");
 		sentenceInYourLanguage.setWidthFull();
-		
+
 		// Audio player
 		AudioPlayer player = new AudioPlayer();
-		
+
 		// Checkbox if we want to do a reverse translation
 		Checkbox reverseTranslation = new Checkbox("Reverse", false);
 		reverseTranslation.addValueChangeListener(e -> {
-			if(e.getValue()) {
+			if (e.getValue()) {
 				sentenceInForeignLanguage.setLabel("Sentence in your language");
 				sentenceInYourLanguage.setLabel("Sentence in foreign language");
-				player.setVisible(false);
-			}else {
+			} else {
 				sentenceInYourLanguage.setLabel("Sentence in your language");
 				sentenceInForeignLanguage.setLabel("Sentence in foreign language");
-				player.setVisible(true);
 			}
 			sentenceInForeignLanguage.setValue("");
 			sentenceInYourLanguage.setValue("");
-			
+
 		});
 		
+		// Hide the upper text
+		Checkbox hideUpperTextField = new Checkbox("Hide upper text field", false);
+		hideUpperTextField.addValueChangeListener(e -> {
+			if (e.getValue())
+				sentenceInForeignLanguage.setVisible(false);
+			else
+				sentenceInForeignLanguage.setVisible(true);
+		});
+
 		// Check Sentence in your language
 		Button checkSentence = new Button("Check");
 		checkSentence.addClickListener(e -> {
 			String yourAnswer = cleanSentence(sentenceInYourLanguage.getValue());
 			boolean correct = false;
-			if(!reverseTranslation.getValue()) {
+			if (!reverseTranslation.getValue()) {
 				String theAnswer = cleanSentence(yourSentence);
-				correct = theAnswer.equals(yourAnswer); 
-			}else {
+				correct = theAnswer.equals(yourAnswer);
+			} else {
 				String theAnswer = cleanSentence(foreignSentence);
-			    correct = theAnswer.equals(yourAnswer);
+				correct = theAnswer.equals(yourAnswer);
 			}
-			if(correct && yourAnswer.length() > 0) {
-				checkSentence.getStyle().set("background-color","#c4f8b5"); // Green
-			}else {
-				checkSentence.getStyle().set("background-color","#f8bcb5"); // Red
+			if (correct && yourAnswer.length() > 0) {
+				checkSentence.getStyle().set("background-color", "#c4f8b5"); // Green
+			} else {
+				checkSentence.getStyle().set("background-color", "#f8bcb5"); // Red
 			}
 		});
 
 		// Create next sentence button
 		Button nextSentence = new Button("Next sentence");
 		nextSentence.addClickListener(e -> {
-			if(sentences != null) {
+			if (sentences != null) {
 				int sentenceNumber = new Random().nextInt(amoutOfSentences);
 				foreignSentence = sentences.get(sentenceNumber).getSentenceInForeignLanguage();
-			    yourSentence = sentences.get(sentenceNumber).getSentenceInYourLanguage();
-			    if(!reverseTranslation.getValue()) {
-			    	sentenceInForeignLanguage.setValue(foreignSentence);
-			    	String audioPath = "Source/Audios/" + selectedTranslateFromTo.getValue().getFromLanguage() + "/" +  foreignSentence + ".mp3";
-					AbstractStreamResource resource = new StreamResource(foreignSentence, () -> {
-							try {
-								return new FileInputStream(audioPath);
-							} catch (FileNotFoundException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							return null;
-						});
-					if(resource != null)
-						player.getElement().setAttribute("src", resource);
-			    }else {
-			    	sentenceInForeignLanguage.setValue(yourSentence);
-			    }
-			    sentenceInYourLanguage.setValue(""); // Auto clear
-			    checkSentence.getStyle().set("background-color", null); // Normal
+				yourSentence = sentences.get(sentenceNumber).getSentenceInYourLanguage();
+				if (!reverseTranslation.getValue()) {
+					sentenceInForeignLanguage.setValue(foreignSentence);
+					setAudioToPlayer(selectedTranslateFromTo, player, foreignSentence);
+				} else {
+					sentenceInForeignLanguage.setValue(yourSentence);
+					setAudioToPlayer(selectedTranslateFromTo, player, foreignSentence);
+				}
+				sentenceInYourLanguage.setValue(""); // Auto clear
+				checkSentence.getStyle().set("background-color", null); // Normal
 			}
 		});
-		
+
 		// See the answer
 		Button seeTheAnswer = new Button("See the answer");
 		seeTheAnswer.addClickListener(e -> {
-			if(!reverseTranslation.getValue()) {
+			if (!reverseTranslation.getValue()) {
 				sentenceInYourLanguage.setValue(yourSentence);
-			}else {
+			} else {
 				sentenceInYourLanguage.setValue(foreignSentence);
 			}
 		});
 
 		// Layout
-		HorizontalLayout reverse_check = new HorizontalLayout(checkSentence, reverseTranslation);
+		HorizontalLayout reverse_check = new HorizontalLayout(checkSentence, reverseTranslation, hideUpperTextField);
 		reverse_check.setAlignItems(Alignment.CENTER);
 		VerticalLayout layout = new VerticalLayout(selectedTranslateFromTo, player, sentenceInForeignLanguage, sentenceInYourLanguage, new HorizontalLayout(nextSentence, seeTheAnswer), reverse_check);
 		setContent(layout);
-		
+
+	}
+
+	private void setAudioToPlayer(Select<TranslateFromTo> selectedTranslateFromTo, AudioPlayer player, String sentence) {
+		String audioPath = "Source/Audios/" + selectedTranslateFromTo.getValue().getFromLanguage() + "/" + sentence + ".mp3";
+		AbstractStreamResource resource = new StreamResource(sentence, () -> {
+			try {
+				return new FileInputStream(audioPath);
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			return null;
+		});
+		if (resource != null)
+			player.getElement().setAttribute("src", resource);
 	}
 
 	private String cleanSentence(String sentence) {
@@ -160,6 +169,6 @@ public class TrainView extends AppLayout {
 		sentence = sentence.replace("(f)", ""); // No feminine "(f)" mark
 		sentence = sentence.replace("(i)", ""); // No informal "(i)" mark
 		return sentence;
-		
+
 	}
 }
