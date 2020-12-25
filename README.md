@@ -149,9 +149,9 @@ logging.level.org.atmosphere = warn
 spring.jpa.show-sql=true
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
-spring.datasource.url=jdbc:mysql://YOUR_MYSQL_SERVER_ADDRESS:3306/MemorizeSentences?createDatabaseIfNotExist=true&serverTimezone=CET
-spring.datasource.username=myUserSQL
-spring.datasource.password=myPasswordSQL
+spring.datasource.url=jdbc:mysql://yourIPAddressOfTheServerWhereMySQLIsInstalled:3306/MemorizeSentences?createDatabaseIfNotExist=true&serverTimezone=CET
+spring.datasource.username=myUser
+spring.datasource.password=myPassword
 ```
 
 6. Run this project
