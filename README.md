@@ -140,11 +140,6 @@ Download the `Memorize-Sentences` and change the `application.properties` in the
 Here you can set the configuration for your database LAN address, user and password.
 
 ```
-server.port=8080
-# Ensure application is run in Vaadin 14/npm mode
-vaadin.compatibilityMode = false
-logging.level.org.atmosphere = warn
-
 # Database
 spring.jpa.show-sql=true
 spring.jpa.hibernate.ddl-auto=update
@@ -161,4 +156,4 @@ First stand inside of the folder `Memorize-Sentences` and write inside your term
 mvn spring-boot:run -Pproduction
 ```
 
-Now you can go to your web browser and type in the local IP address of the computer there you started this Vaadin application.
+Now you can go to your web browser and type in the local IP address of the computer there you started this application.
